@@ -63,7 +63,7 @@
 
 /* Configure ContikiMAC for when it's selected */
 #define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER  0
-#define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION 1
+#define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION 1 
 #define WITH_FAST_SLEEP                         1
 
 #ifndef NETSTACK_CONF_RDC_CHANNEL_CHECK_RATE
@@ -278,7 +278,7 @@
  * @{
  */
 #ifndef ROM_BOOTLOADER_ENABLE
-#define ROM_BOOTLOADER_ENABLE             0
+#define ROM_BOOTLOADER_ENABLE             0 
 #endif
 /** @} */
 /*---------------------------------------------------------------------------*/
@@ -289,7 +289,7 @@
  * @{
  */
 #ifndef BUTTON_SENSOR_CONF_ENABLE_SHUTDOWN
-#define BUTTON_SENSOR_CONF_ENABLE_SHUTDOWN 0    //Setting this to 0 Allows VR button to function properly
+#define BUTTON_SENSOR_CONF_ENABLE_SHUTDOWN 0 
 #endif
 
 /* Notify various examples that we have Buttons */
