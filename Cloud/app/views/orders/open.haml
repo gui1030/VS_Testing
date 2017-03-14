@@ -1,0 +1,9 @@
+.panel
+  %ul.list-group
+    - if @incomplete_orders.count > 0
+      %li.list-group-item
+        %h2 My Unfinished Orders
+        = render @incomplete_orders
+    %li.list-group-item
+      %h2 Open Orders
+      = render @unclaimed_orders

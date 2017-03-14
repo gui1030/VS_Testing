@@ -1,0 +1,11 @@
+- if unit.alerts?
+  .panel.panel-danger.panel-alerts
+    .panel-heading
+      =link_to "#alerts-#{unit.id}", data: { toggle: 'collapse' } do
+        %h3.panel-title
+          %span.tag= unit.alerts.count
+          Alerts
+    .panel-collapse.collapse.in{id: "alerts-#{unit.id}"}
+      %ul.list-group
+        - unit.alerts.each do |key, model|
+          = render "alerts/#{key}", model: model

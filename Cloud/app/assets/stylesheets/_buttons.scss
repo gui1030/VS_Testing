@@ -1,0 +1,22 @@
+.btn {
+  border: 0;
+  padding: 10px 30px;
+}
+.btn-default {
+  @include button-box-shadow($btn-default-border)
+}
+.btn-primary {
+  @include button-box-shadow($btn-primary-border)
+}
+.btn-info {
+  @include button-box-shadow($btn-info-border)
+}
+.btn-success {
+  @include button-box-shadow($btn-success-border)
+}
+.btn-warning {
+  @include button-box-shadow($btn-warning-border)
+}
+.btn-danger {
+  @include button-box-shadow($btn-danger-border)
+}

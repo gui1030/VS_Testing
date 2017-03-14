@@ -1,0 +1,7 @@
+= bootstrap_form_for @hub, url: target do |f|
+  = f.text_field :name, label: "Name"
+  - if current_user.is_a? Admin
+    = f.text_field :particle_id, label: "Particle ID"
+  .text-center
+    = link_to "Back", unit_hubs_path(@unit), class: "btn btn-default block-xs"
+    = f.submit class: 'btn btn-primary block-xs'

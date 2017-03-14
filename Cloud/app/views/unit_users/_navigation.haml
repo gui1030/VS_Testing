@@ -1,0 +1,10 @@
+= nav_link unit_path(current_unit) do
+  %i.nav-icon.vs.vs-dashboard
+  Dashboard
+= nav_link new_unit_report_path(current_unit) do
+  %i.nav-icon.vs.vs-reports
+  Reports
+= nav_link user_notify_events_path(current_user) do
+  %i.nav-icon.vs.vs-bell
+  Notifications
+= render 'units/hardware_links', unit: current_unit

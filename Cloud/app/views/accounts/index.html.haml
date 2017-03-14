@@ -1,0 +1,25 @@
+.panel.panel-default.no-border
+  .panel-heading
+    .row
+      .col-sm-6
+        %h1
+          Accounts
+          = link_to '+', new_account_path
+      .col-sm-6
+        = bootstrap_form_tag url: accounts_path, method: :get do |f|
+          = f.text_field :search, hide_label: true, value: params[:search], wrapper: { class: 'search' }, append: button_tag(content_tag(:i, nil, class:'fa fa-search'), type: 'submit', class: "btn")
+    .row
+      .col-sm-6
+        .page-info
+          %span= page_entries_info @accounts
+      .col-sm-6
+        = paginate @accounts
+  %ul.list-group
+    = render partial: :account, collection: @accounts, layout: 'shared/collection_item'
+  .panel-body
+    .row
+      .col-sm-6
+        .page-info
+          %span= page_entries_info @accounts
+      .col-sm-6
+        = paginate @accounts

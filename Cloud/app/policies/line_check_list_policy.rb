@@ -1,0 +1,2 @@
+class LineCheckListPolicy < ProbePolicy
+end

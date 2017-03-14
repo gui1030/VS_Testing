@@ -1,0 +1,12 @@
+-if unit && unit.persisted?
+  %li
+    %a.collapsed{ aria: { expanded: 'false', haspopup: 'true'}, data: { toggle: 'collapse', target: '#hardware-menu'}, role: 'button'}
+      %i.nav-icon.vs.vs-hardware
+      Hardware
+    %ul.collapse#hardware-menu{ role: 'menu' }
+      = nav_link 'Network', unit_network_path(unit) if policy(unit).network?
+      = nav_link "VeriConnect", unit_hubs_path(unit) if policy(Hub).index?
+      = nav_link "VeriSense", unit_sensors_path(unit) if policy(Sensor).index?
+      .hide
+        = nav_link 'New Hub', new_unit_hub_path(unit)
+        = nav_link 'New Sensor', new_unit_sensor_path(unit)

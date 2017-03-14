@@ -1,0 +1,33 @@
+# == Schema Information
+#
+# Table name: units
+#
+#  id                                 :integer          not null, primary key
+#  name                               :string(255)
+#  city                               :string(255)
+#  state                              :string(255)
+#  created_at                         :datetime         not null
+#  updated_at                         :datetime         not null
+#  logo_file_name                     :string(255)
+#  logo_content_type                  :string(255)
+#  logo_file_size                     :integer
+#  logo_updated_at                    :datetime
+#  address                            :string(255)
+#  address1                           :string(255)
+#  zipcode                            :string(255)
+#  recurring_notify_duration          :integer          default(60)
+#  notify_threshold                   :float(24)        default(5.0)
+#  users_count                        :integer          default(0), not null
+#  probe_enabled                      :boolean
+#  temps_count                        :integer          default(0), not null
+#  compliant_temps_count              :integer          default(0), not null
+#  account_id                         :integer
+#  deleted_at                         :datetime
+#  humidity_recurring_notify_duration :integer          default(60)
+#  humidity_notify_threshold          :float(24)        default(1.0)
+#
+
+one:
+  name: Bob's Cafe
+two:
+  name: Unit Two

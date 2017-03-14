@@ -1,0 +1,11 @@
+.control-label {
+  color: $gray;
+  text-transform: uppercase;
+}
+
+.checkbox {
+  margin-top: 0;
+  label {
+    padding-left: 0;
+  }
+}

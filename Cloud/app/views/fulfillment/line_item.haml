@@ -1,0 +1,17 @@
+- case @line_item.sensor.location
+- when Hub
+  %h3 VeriConnect
+  = bootstrap_form_for @line_item.sensor.location, url: wizard_path, method: :put do |f|
+    = f.text_field :name, readonly: true, append: button_tag(content_tag(:i, nil, class: 'fa fa-clipboard'), type: 'button', class: 'btn btn-clipboard', 'data-clipboard-target' => '#hub_name')
+    = f.text_field :particle_id, label: 'Particle ID', required: true
+    .text-center
+      = link_to 'Back', current_page?(previous_wizard_path) ? open_orders_path : previous_wizard_path, class: 'btn btn-default block-xs'
+      = f.submit 'Next', class: 'btn btn-primary block-xs'
+- else
+  %h3 VeriSense
+  = bootstrap_form_for @line_item.sensor, url: wizard_path, method: :put do |f|
+    = f.text_field :name, readonly: true, append: button_tag(content_tag(:i, nil, class: 'fa fa-clipboard'), type: 'button', class: 'btn btn-clipboard', 'data-clipboard-target' => '#sensor_name')
+    = f.text_field :mac, required: true
+    .text-center
+      = link_to 'Back', current_page?(previous_wizard_path) ? open_orders_path : previous_wizard_path, class: 'btn btn-default block-xs'
+      = f.submit 'Next', class: 'btn btn-primary block-xs'

@@ -1,0 +1,2 @@
+class LineCheckItemPolicy < ProbePolicy
+end

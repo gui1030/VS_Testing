@@ -1,0 +1,35 @@
+.charts{data: { active: '.slick-current .active .active .chart'} }
+  = render 'alerts', unit: @unit
+  .panel.panel-body
+    .chart-controls
+      .row
+        .col-sm-4.col-md-3.col-sm-offset-4.col-md-offset-6
+          .select.spacer-bottom
+            = collection_select(:chart, :range, chart_ranges, :itself, :capitalize, {}, class: 'chart-select range-select')
+        .col-sm-4.col-md-3
+          .select.spacer-bottom
+            = collection_select(:chart, :metric, chart_metrics, :itself, :capitalize, {}, class: 'chart-select metric-select')
+    .chart-headers
+      %h1= @unit
+    .chart-carousel
+      - @unit.coolers.each do |cooler|
+        .tab-content{id: "cooler-#{cooler.id}"}
+          %h4.text-center
+            = cooler
+            %a.chart-export{href: '#'}
+              %i.vs.vs-reports
+          - chart_ranges.each do |range|
+            .tab-pane.fade{class: "#{range}-tab"}
+              .tab-content
+                - chart_metrics.each do |metric|
+                  .tab-pane.fade{class: "#{metric}-tab"}
+                    .chart{data: { source: cooler.sensor && sensor_readings_path(cooler.sensor, range: range, metric: metric )}}
+                      .loading
+                        = render 'shared/spinner'
+                      .legend
+                        %i.vs.vs-dot-circle-o.text-danger
+                        %label High
+                        %i.vs.vs-dot-circle-o.text-success
+                        %label Low
+                      .canvas
+                        %canvas

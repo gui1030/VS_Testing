@@ -1,0 +1,14 @@
+- content_for :step_title do
+  %i.vs.vs-contact.text-primary
+  .middle Contact Information
+%p.text-center This information will never be publicly visible.
+= bootstrap_form_for @user, url: wizard_path, method: :put do |f|
+  .row
+    .col-sm-6
+      = f.text_field :firstname, label: "First Name"
+    .col-sm-6
+      = f.text_field :lastname, label: "Last Name"
+  = f.text_field :email, label: 'Email Address', disabled: true
+  .text-center
+    = link_to 'Back', previous_wizard_path, class: 'btn btn-default block-xs'
+    = f.submit "Next", class: "btn btn-primary block-xs"

@@ -1,0 +1,19 @@
+%nav.navbar.navbar-fixed-top.navbar-default{:role => "navigation"}
+  .container-fluid
+    .navbar-header
+      %a.navbar-brand{:href => "/"}
+        = image_tag('vs_logo_white.png', width: 175)
+      - if show_navigation?
+        %button.navbar-toggle{ data: { toggle: 'offcanvas', target: '#sidebar', placement: 'left' }, type: 'button'}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+    - if current_account && current_account.persisted? && current_account.logo.exists?
+      .collapse.navbar-collapse
+        - if policy(current_account).show?
+          = link_to current_account, class: 'navbar-img navbar-right' do
+            = image_tag current_account.logo.url(:thumb)
+        - else
+          .navbar-img.navbar-right
+            = image_tag current_account.logo.url(:thumb)

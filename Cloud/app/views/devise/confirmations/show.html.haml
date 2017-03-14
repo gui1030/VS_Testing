@@ -1,0 +1,8 @@
+.panel.panel-body
+  %h2 Account Activation
+  = bootstrap_form_for resource, :as => resource_name, :url => update_user_confirmation_path, :html => {:method => 'patch'}, :id => 'activation-form' do |f|
+    = f.text_field :email, hide_label: true, disabled: true
+    = f.password_field :password, hide_label: true, autofocus: true, placeholder: 'Choose Password', autocomplete: 'off'
+    = f.password_field :password_confirmation, hide_label: true, autofocus: true, placeholder: 'Confirm Password', autocomplete: 'off'
+    = hidden_field_tag :confirmation_token,@confirmation_token
+    = f.submit 'Confirm Account', :class => 'btn btn-primary btn-block'

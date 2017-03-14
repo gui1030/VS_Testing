@@ -1,0 +1,47 @@
+.center-vertical {
+  position: relative;
+  top:        50%;
+  transform: translateY(-50%);
+}
+
+.center-horizontal {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.center-absolute {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.middle {
+  display: inline;
+  vertical-align: middle;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.block-xs {
+  @media (max-width: $screen-xs-max) {
+    display: block;
+    margin-bottom: $spacer-width;
+    width: 100%;
+  }
+}
+
+.spacer-bottom {
+  margin-bottom: $spacer-width;
+}
+
+.relative {
+  position: relative;
+}

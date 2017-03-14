@@ -1,0 +1,13 @@
+-if account && account.persisted?
+  %li
+    %a.collapsed{ aria: { expanded: 'false', haspopup: 'true'}, data: { toggle: 'collapse', target: '#account-menu'}, role: 'button'}
+      %i.nav-icon.vs.vs-account
+      Account
+    %ul.collapse#account-menu{ role: 'menu'}
+      = nav_link 'Units', account_units_path(account)
+      = nav_link 'Users', account_users_path(account)
+      = nav_link 'Account Settings', edit_account_path(account) if policy(account).edit?
+      .hide
+        = nav_link 'Account', account_path(account) unless current_user.is_a?(AccountUser)
+        = nav_link 'New Unit', new_account_unit_path(account)
+        = nav_link 'New User', new_account_user_path(account)

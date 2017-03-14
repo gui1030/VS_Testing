@@ -1,0 +1,6 @@
+.panel.panel-body
+  %h1= @user
+  %h2 Notification History
+  %ul.list-group
+    = render @events
+    = paginate(@events)

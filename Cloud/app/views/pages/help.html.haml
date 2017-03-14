@@ -1,0 +1,110 @@
+%head
+  :css
+    h1 {
+
+        text-align: center;
+        margin: 0 0 1em 0;
+
+      }
+
+      h3 {
+        padding-top: 30px;
+        text-align: center;
+        font-size: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+        font-weight: bold;
+      }
+
+      h4 {
+       text-decoration: underline;
+     }
+
+     .help_section {
+      color: black;
+      background-color: white;
+      padding: 5%;
+      border-radius: 8px;
+      margin-bottom: 5%;
+      position: relative;
+      bottom: 40px;
+      margin-top: 50px;
+      margin-right: 10px;
+      margin-left: 10px;
+
+      }
+
+      .blue_dash {
+        background-color: #0072bc;
+        width: 40px;
+        height: 6px;
+        margin: 0 auto;
+      }
+
+      .image {
+        width: 92%;
+        height: auto;
+        margin: 0 auto;
+        margin-top: 60px;
+        margin-bottom: 90px;
+        padding-left: 1%;
+        padding-right: 1%;
+      }
+%body
+  .help_section
+    %h1 Dashboard
+    .blue_dash
+    %h3
+      This is default screen when you log into system.
+      %br/
+      = succeed "It" do
+        %br/
+    = image_tag "help_dashboard.png", :class => "image"
+    %h1 Cooler View
+    .blue_dash
+    %h3
+      When you click the cooler link in navigation bar, you see
+
+      a list of all devices and their compliance percentage.
+    = image_tag "help_coolers.png", :class => "image"
+    %h1 Cooler Detail View
+    .blue_dash
+    %h3
+      Clicking on a specific cooler enables you to see a granular log of all
+
+      temperature readings as well as the thresholds in place for that device.
+    = image_tag "help_cooler_detail.png", :class => "image"
+    %h1 Automated Reports
+    .blue_dash
+    %h3
+      In the “My Account” link you can configure automated email reports by clicking
+
+      the Reports button in the column on the left.
+      %br/
+      = succeed "Here" do
+        %br/
+    = image_tag "help_reports.png", :class => "image"
+    %h1 Notifications
+    .blue_dash
+    %h3
+      Also under My Account is the Notifications tab.
+      %br/
+      = succeed "You" do
+        %br/
+    = image_tag "help_notifications.png", :class => "image"
+    %h1 Reports
+    .blue_dash
+    %h3
+      If you wish to create a report on demand (not automated) you
+
+      can navigate to the Reports Tab and click “Create New Report.”
+    = image_tag "help_reports.png", :class => "image"
+    %h1 Create New Report
+    .blue_dash
+    %h3
+      To create a report, give it a name, select a device and
+
+      date range, then click “Generate Report.”
+    = image_tag "help_create_report.png", :class => "image"
+    %h1 Still Need Help?
+    %h3 Contact Us at (404) 754-7128 or support@verisolutions.co

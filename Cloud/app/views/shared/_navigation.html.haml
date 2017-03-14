@@ -1,0 +1,19 @@
+%nav.navmenu{:role => "navigation"}
+  %ul.nav.navmenu-nav
+    - if current_user.is_a? Admin
+      = render 'admins/navigation'
+    - elsif current_user.is_a? AccountUser
+      = render 'account_users/navigation'
+    - elsif current_user.is_a? UnitUser
+      = render 'unit_users/navigation'
+    = nav_link edit_user_path(current_user) do
+      %i.nav-icon.vs.vs-contact
+      My Profile
+    %li
+      = link_to new_contact_path do
+        %i.nav-icon.fa.fa-envelope
+        Support
+    %li
+      = link_to destroy_user_session_path, :method=> :delete do
+        %i.nav-icon.fa.fa-sign-out
+        Logout

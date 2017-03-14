@@ -1,0 +1,2 @@
+.nested-fields.col-xs-4.col-sm-3.col-md-2
+  = f.text_field :time, value: f.object.time && f.object.time.strftime('%l:%M %p'), append: remove_from(f), data: { provide: 'timepicker'}

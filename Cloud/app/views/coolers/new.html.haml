@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 New Cooler
+  = render 'form', target: unit_coolers_path(@unit)

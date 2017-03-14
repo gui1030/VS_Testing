@@ -1,0 +1,7 @@
+.row.label-group
+  .col-sm-3.col-md-2
+    .label-group-label
+      %label= yield(:label)
+  .col-sm-9.col-md-10
+    .label-group-value{class: options[:class] }
+      = yield

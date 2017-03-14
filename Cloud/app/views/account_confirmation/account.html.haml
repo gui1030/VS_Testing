@@ -1,0 +1,8 @@
+- content_for :step_title do
+  %i.vs.vs-account.text-primary
+  .middle Account Setup
+%p.text-center Let's get you started - It only takes a few steps.
+= bootstrap_form_for @account, url: wizard_path, method: :put do |f|
+  = f.text_field :name, label: 'Account Name'
+  .text-center
+    = f.submit 'Next', class: 'btn btn-primary block-xs'

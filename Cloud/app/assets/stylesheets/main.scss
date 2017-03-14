@@ -1,0 +1,189 @@
+// import the CSS framework
+
+@import "variables";
+@import "bootstrap-overrides";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch";
+@import "bootstrap-switch";
+@import "bootstrap-datepicker/dist/css/bootstrap-datepicker3";
+@import "jasny-bootstrap/dist/css/jasny-bootstrap";
+@import "vis/dist/vis";
+@import "font-awesome/scss/font-awesome";
+@import "slick-carousel/slick/slick.scss";
+
+@import "mixins";
+@import "utilities";
+@import "reset";
+@import "typography";
+@import "vs_icons";
+@import "buttons";
+@import "navbar";
+@import "navmenu";
+@import "forms";
+@import "spinner";
+@import "charts";
+@import "network";
+@import "privacy";
+@import "alerts";
+@import "account_confirmation";
+@import "collections";
+@import "order_fulfillment";
+@import "hardware";
+
+.table_padding {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.btn:focus,.btn:active {
+   outline: none !important;
+}
+
+.info, .success, .warning, .error, .validation {
+border: 1px solid;
+margin: 10px 0px;
+text-align: center;
+padding:15px 10px 15px 10px;
+background-repeat: no-repeat;
+background-position: 10px center;
+}
+.info {
+color: #00529B;
+background-color: #BDE5F8;
+background-image: url('info.png');
+}
+.success {
+color: #4F8A10;
+background-color: #DFF2BF;
+background-image:url('success.png');
+}
+.warning {
+color: #9F6000;
+background-color: #FEEFB3;
+background-image: url('warning.png');
+}
+.error {
+color: #D8000C;
+background-color: #FFBABA;
+background-image: url('error.png');
+}
+
+.table-controls {
+  margin-bottom: 1em;
+}
+
+.links {
+  margin-bottom: 1em;
+}
+
+.avatar {
+  border-radius: 50%;
+}
+
+.avatar-thumb {
+  width: 60px;
+}
+
+.avatar-left {
+  margin: 0;
+}
+.avatar-right {
+  margin-bottom: 20px;
+  @media(min-width: $screen-sm-min) {
+    margin-right: 0;
+  }
+}
+
+.form-group {
+  input[type='file'] {
+    width: 100%;
+  }
+  .btn {
+    margin-top: 13px;
+  }
+}
+
+.input-group {
+  .input-group-btn {
+    .btn {
+      margin-top: 0;
+      padding: 6px 8px;
+      background-color: $white;
+      border: 1px solid $input-border;
+    }
+  }
+}
+
+.tag {
+  display: inline-block;
+  border: 1px solid $gray-light;
+  border-radius: 20px;
+  padding: 2px 10px;
+  &.tag-primary {
+    color: $brand-primary;
+    border-color: $brand-primary;
+  }
+  &.tag-success {
+    color: $brand-success;
+    border-color: $brand-success;
+  }
+  &.tag-info {
+    color: $brand-info;
+    border-color: $brand-info;
+  }
+  &.tag-warning {
+    color: $brand-warning;
+    border-color: $brand-warning;
+  }
+  &.tag-danger {
+    color: $brand-danger;
+    border-color: $brand-danger
+  }
+}
+
+[data-toggle='collapse'] {
+  position: relative;
+  display: block;
+  &:before {
+    @extend .fa;
+    @extend .center-vertical;
+    @include transition(transform .35s ease);
+    content: '\f107';
+    position: absolute;
+    right: 0px;
+    font-size: 20px;
+
+  }
+  &.collapsed:before {
+    transform: translateY(-50%) rotate(-90deg);
+    // content: '\f105';
+  }
+  .panel-heading & {
+    color: inherit;
+  }
+}
+
+.no-border {
+  border-width: 0;
+}
+
+.list-group-item {
+  padding: 20px;
+}
+
+.actions {
+  .btn {
+    display: inline-block;
+    background: transparent;
+    box-shadow: none;
+    padding: 5px;
+    font-size: 1.5em;
+    border: none;
+    color: $gray;
+    &:active:hover, &:active:focus {
+      background-color: inherit;
+    }
+  }
+}

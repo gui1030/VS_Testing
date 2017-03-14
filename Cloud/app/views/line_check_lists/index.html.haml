@@ -1,0 +1,5 @@
+.panel.panel-body
+  %h2 Line Check Lists
+  .table-controls
+    - if policy(LineCheckList.new(unit: @unit)).new?
+      = link_to 'New Line Check List', new_unit_veritemp_line_check_list_path(@unit), class: 'btn btn-primary'

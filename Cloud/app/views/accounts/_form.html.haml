@@ -1,0 +1,28 @@
+= bootstrap_form_for @account do |f|
+  .panel.panel-primary
+    .panel-heading
+      %h3.panel-title
+        %i.fa.fa-location-arrow
+        Contact
+    .panel-body
+      .row
+        .col-xs-12
+          = f.text_field :name, :label => "Account Name"
+      .row
+        .col-sm-6
+          = f.text_field :address, :label => "Address 1"
+        .col-sm-6
+          = f.text_field :address1, :label => "Address 2",class: "form-control"
+      .row
+        .col-sm-6
+          = f.text_field :city, :city => "City",class: "form-control"
+        .col-sm-3.col-xs-6
+          = f.collection_select :state, us_states, :second, :first
+        .col-sm-3.col-xs-6
+          = f.text_field :zipcode, :label => "Zip Code",class: "form-control"
+      .row
+        .col-xs-12
+          = f.file_field :logo
+  .text-center
+    = link_to "Back", @account.persisted? ? @account : accounts_path, class: 'btn btn-default block-xs'
+    = f.submit class: 'btn btn-primary block-xs'

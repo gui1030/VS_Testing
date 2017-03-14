@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 New User
+  = render 'users/form', user: @user, index: unit_users_path(@unit)

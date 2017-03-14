@@ -1,0 +1,4 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: @sensor.name) do |sheet|
+  render 'sensor_readings/sheet', readings: @readings, sheet: sheet
+end

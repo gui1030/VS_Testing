@@ -1,0 +1,22 @@
+= render 'alerts', units: @units.select(&:alerts?)
+.panel.panel-body
+  .charts{data: { active: '.slick-current .active .chart'} }
+    .chart-controls
+      .row
+        .col-sm-4.col-sm-offset-8.col-md-3.col-md-offset-9
+          .select.spacer-bottom
+            = collection_select(:chart, :range, chart_ranges, :itself, :capitalize, {}, class: 'chart-select')
+    .chart-headers
+      %h1.text-center= @account
+      %h3 Compliance (%)
+    .chart-carousel
+      - @units.each do |unit|
+        .tab-content
+          %h4.text-center.front= link_to unit.name, unit
+          - chart_ranges.each do |range|
+            .tab-pane.fade{class: "#{range}-tab"}
+              .chart{data: { source: unit && unit_path(unit, range: range)}}
+                .loading
+                  = render 'shared/spinner'
+                .canvas
+                  %canvas

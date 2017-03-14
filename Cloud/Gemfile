@@ -1,0 +1,98 @@
+source 'https://rubygems.org'
+
+gem 'rails', '4.2.4'
+
+# Core
+gem 'turbolinks', '~> 2.5.3'
+gem 'jquery-turbolinks', '~> 2.1.0'
+gem 'rack-cors', require: 'rack/cors'
+
+# Logging & Errors
+gem 'syslogger', '~> 1.6.0'
+gem 'lograge', '~> 0.3.1'
+
+# Database
+gem 'mysql2', '~> 0.3.18'
+
+# Server-side JS
+gem 'execjs'
+gem 'therubyracer', platforms: :ruby
+
+# Asset Pipeline
+gem 'sprockets', '~> 3.6.3'
+gem 'uglifier', '>= 1.3.0'
+gem 'sprockets-es6', '~> 0.9.0'
+gem 'bootstrap-sass', '~> 3.3.6'
+gem 'sass-rails', '>= 3.2'
+gem 'less-rails'
+gem 'haml'
+gem 'puma'
+
+# Rails Libraries
+gem 'figaro'
+gem 'devise'
+gem 'pundit'
+gem 'faker'
+gem 'doorkeeper'
+gem 'axlsx_rails'
+gem 'kaminari'
+
+# Model Libraries
+gem 'counter_culture'
+gem 'paranoia'
+gem 'groupdate', '~> 2.1.1'
+
+# Controller Libraries
+gem 'wicked'
+gem 'jsonapi-resources'
+gem 'jsonapi-authorization'
+
+# View Helpers
+gem 'bootstrap_form'
+gem 'cocoon'
+gem 'inline_svg'
+
+# Mailer Libraries
+gem 'premailer-rails'
+gem 'mail_form'
+
+# Ruby Libraries
+gem 'rubyzip', '~> 1.1.0'
+gem 'axlsx', '2.1.0.pre'
+
+# API Integrations
+gem 'twilio-ruby'
+gem 'paperclip', '~> 4.3'
+gem 'aws-sdk', '< 2.0'
+gem 'aws-ses', '~> 0.4.4', require: 'aws/ses'
+gem 'particlerb'
+gem 'active_shipping'
+
+group :doc do
+  gem 'sdoc', '~> 0.4.0'
+end
+
+group :production do
+  gem 'unicorn'
+end
+
+group :development do
+  gem 'annotate'
+  gem 'web-console', '~> 2.0'
+  gem 'letter_opener'
+  gem 'awesome_print'
+  gem 'better_errors', '>= 2.1.1'
+end
+
+group :test do
+  gem 'sqlite3'
+end
+
+group :development, :test do
+  gem 'spring'
+  gem 'rubocop'
+  gem 'byebug'
+  gem 'rb-readline'
+
+  gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+end

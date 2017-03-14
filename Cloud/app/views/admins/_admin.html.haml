@@ -1,0 +1,8 @@
+- content_for :item_image do
+  = image_tag admin.avatar.url(:thumb), class: 'avatar avatar-thumb'
+- content_for :item_title, admin
+- content_for :actions do
+  = render 'users/actions', user: admin
+= label_group('Email', nil, class: 'ellipses') do
+  = mail_to admin.email, nil
+= label_group 'Last Login', admin.last_sign_in_at && admin.last_sign_in_at.in_time_zone.strftime('%c')

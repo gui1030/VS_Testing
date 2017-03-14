@@ -1,0 +1,14 @@
+- content_for :step_title do
+  %i.vs.vs-bar-chart.text-primary
+  .middle Report Settings
+%p.text-center How often would you like the email report sent?
+= bootstrap_form_for @user, url: wizard_path, method: :put do |f|
+  = f.select :report_frequency, User::REPORT_FREQUENCY, {label: 'Frequency' }, {id: "report_frequency", class: "selectpicker"}
+  = f.select :report_time, Unit::TIME_TO_INT, {label: 'Time' }, { class: "selectpicker"}
+  #report_weekday
+    = f.select :report_weekday, User::REPORT_WEEKDAY, {label: 'Weekday'}, { class: "selectpicker"}
+  #report_day
+    = f.select :report_day, User.report_day,{label: 'Day'}, { class: "selectpicker"}
+  .text-center
+    = link_to "Back", previous_wizard_path, class: "btn btn-default block-xs"
+    = f.submit "Next", class: "btn btn-primary block-xs"

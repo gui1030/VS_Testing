@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= link_to @account.name, @account
+  %h2 New Unit
+  = render 'form', target: account_units_path(@account)

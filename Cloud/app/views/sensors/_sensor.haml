@@ -1,0 +1,16 @@
+%li.list-group-item.text-center
+  %h3= sensor
+  .actions
+    = edit_button(sensor)
+    = destroy_button(sensor)
+  %div{data: { toggle: 'tooltip', title: "Last Online: #{sensor.last_online && sensor.last_online.in_time_zone.strftime('%c')}"}}
+    = inline_svg('verisense', class: 'hardware-logo')
+  .hardware-status
+    %i.fa.fa-thermometer.text-primary
+    - if sensor.temp
+      #{convert_temp(sensor.temp)} #{temp_units}
+    - else
+      n/a
+    %i.vs.vs-humidity.text-primary
+    #{sensor.humidity || 'n/a'}
+    = sensor_battery_icon(sensor)

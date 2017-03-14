@@ -1,0 +1,27 @@
+= bootstrap_form_for @cooler, url: target do |f|
+  .row
+    .col-xs-6
+      = f.form_group :active_notifications, label: { text: 'Temperature Notifications' } do
+        = f.check_box :active_notifications, label: ''
+  = f.text_field :name, :autofocus => true
+  .row
+    .col-sm-6
+      = f.number_field :bottom_temp_threshold, :label => "Bottom Temperature Threshold  (#{temp_units})", :step => 0.01, value: convert_temp(@cooler.bottom_temp_threshold)
+    .col-sm-6
+      = f.number_field :top_temp_threshold, :label => "Top Temperature Threshold (#{temp_units})", :step => 0.01, value: convert_temp(@cooler.top_temp_threshold)
+  .row
+    .col-xs-6
+      = f.form_group :humidity_notifications, label: { text: 'Humidity Notifications' } do
+        = f.check_box :humidity_notifications, label: ''
+  .row
+    .col-sm-6
+      = f.number_field :bottom_humidity_threshold, :label => "Bottom Humidity Threshold  RH(%)", :step => 0.01
+    .col-sm-6
+      = f.number_field :top_humidity_threshold, :label => "Top Humidity Threshold RH(%)", :step => 0.01
+  = f.text_area :description, :label => "Description",class: "form-control"
+  - if current_user.is_a? Admin
+    = f.fields_for :sensor do |sensor_form|
+      = sensor_form.text_field :mac, label: 'MAC Address'
+  .text-center
+    = link_to "Back", referer, class: "btn btn-default block-xs"
+    = f.submit class: 'btn btn-primary block-xs'

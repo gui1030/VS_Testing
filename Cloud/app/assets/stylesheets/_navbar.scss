@@ -1,0 +1,16 @@
+.navbar-brand {
+  padding: 0 15px;
+  img {
+    @extend .center-vertical;
+  }
+}
+.navbar-img {
+  height: $navbar-height;
+  &.navbar-right {
+    margin-right: 0;
+  }
+  img {
+    @extend .center-vertical;
+    max-height: $navbar-height - 20px;
+  }
+}

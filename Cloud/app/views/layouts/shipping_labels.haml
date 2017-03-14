@@ -1,0 +1,29 @@
+%html
+  %head
+    :css
+      @page {
+        size: 6in 4in;
+        margin: 0;
+      }
+      img {
+        width: 100%;
+      }
+      @media print {
+        html, body {
+          width: 6in;
+          height: 4in;
+          margin: 0;
+          overflow: hidden;
+        }
+        img {
+          height: 3.5in;
+          width: auto;
+          margin: 0.25in;
+        }
+      }
+    :javascript
+      window.addEventListener('DOMContentLoaded', function() {
+        window.opener.document.getElementById('order_tracking_number').value = '#{@label.tracking_number}';
+      });
+  %body
+    = yield

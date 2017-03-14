@@ -1,0 +1,14 @@
+- content_for :item_title do
+  = link_to unit.name, unit
+= content_for :actions do
+  = edit_button(unit)
+  = destroy_button(unit)
+= label_group 'Issues' do
+  - if unit.alerts?
+    .tag.tag-danger
+      %i.fa.fa-exclamation-triangle
+      = unit.alerts.count
+  - else
+    .tag.tag-success
+      %i.fa.fa-check
+      0

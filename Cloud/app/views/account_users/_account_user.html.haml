@@ -1,0 +1,15 @@
+- content_for :item_image do
+  = image_tag account_user.avatar.url(:thumb), class: 'avatar avatar-thumb'
+- content_for :item_title, account_user
+- content_for :actions do
+  - if policy(account_user).show?
+    = link_to user_notify_events_path(account_user), class: 'btn btn-default' do
+      %i.vs.vs-bell
+  = render 'users/actions', user: account_user
+= label_group('Email', nil, class: 'ellipses') do
+  = mail_to account_user.email, nil
+= label_group('Mobile', account_user.phone)
+- if policy(account_user).show?
+  = label_group 'Last Login', account_user.last_sign_in_at && account_user.last_sign_in_at.in_time_zone.strftime('%c')
+  = label_group 'Email Notifications', on_off(account_user.email_notification)
+  = label_group 'Text Notifications', on_off(account_user.sms_notification)

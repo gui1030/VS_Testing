@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 Settings
+  = render 'form', target: unit_path(@unit)

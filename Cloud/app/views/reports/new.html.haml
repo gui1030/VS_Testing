@@ -1,0 +1,27 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 New Report
+  = bootstrap_form_tag url: unit_report_path(@unit, format: :xlsx) do |f|
+    = f.text_field :name
+    .row
+      .col-sm-6
+        = f.text_field :start_time, :required => true, :placeholder => "MM/DD/YYYY",:label => "Start Date", 'class' => 'bottom-picker'
+      .col-sm-6
+        = f.text_field :end_time, :required => true, :placeholder => "MM/DD/YYYY",:label => "End Date", 'class' => 'bottom-picker'
+    = label :cooler_ids, 'Coolers'
+    .form-group.switch
+      = collection_check_boxes :unit, :cooler_ids, @unit.coolers, :id, :name, label: 'Coolers' do |b|
+        .checkbox
+          = b.label { b.check_box + " #{b.text}" }
+    .text-center
+      = link_to "Back", unit_path(@unit), class: "btn btn-default block-xs"
+      = f.submit 'Create Report', class: "btn btn-primary block-xs"
+
+:javascript
+  $(document).ready( function() {
+    $('.bottom-picker').datepicker({
+      zIndexOffset: 1000,
+      orientation: 'bottom',
+      todayHighlight: true
+    });
+  });

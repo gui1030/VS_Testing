@@ -1,0 +1,6 @@
+[data-visualization~=network] {
+  height: 400px;
+  .loading {
+    @extend .center-absolute;
+  }
+}

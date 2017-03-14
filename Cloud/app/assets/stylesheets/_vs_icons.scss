@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'vs-icons';
+  src:  font-url('vs-icons.eot?i6mxje');
+  src:  font-url('vs-icons.eot?i6mxje#iefix') format('embedded-opentype'),
+    font-url('vs-icons.ttf?i6mxje') format('truetype'),
+    font-url('vs-icons.woff?i6mxje') format('woff'),
+    font-url('vs-icons.svg?i6mxje#vs-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.vs {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'vs-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vs-humidity:before {
+  content: "\e91a";
+}
+.vs-battery-1:before {
+  content: "\e910";
+}
+.vs-battery-2:before {
+  content: "\e911";
+}
+.vs-battery-3:before {
+  content: "\e912";
+}
+.vs-battery-4:before {
+  content: "\e913";
+}
+.vs-battery-5:before {
+  content: "\e914";
+}
+.vs-bars-1:before {
+  content: "\e915";
+}
+.vs-bars-2:before {
+  content: "\e916";
+}
+.vs-bars-3:before {
+  content: "\e917";
+}
+.vs-bars-4:before {
+  content: "\e918";
+}
+.vs-bars-5:before {
+  content: "\e919";
+}
+.vs-trash:before {
+  content: "\e90f";
+}
+.vs-verisense:before {
+  content: "\e90e";
+}
+.vs-dashboard:before {
+  content: "\e90c";
+}
+.vs-unit:before {
+  content: "\e90d";
+}
+.vs-dot-circle-o:before {
+  content: "\e907";
+}
+.vs-logo:before {
+  content: "\e900";
+}
+.vs-bar-chart:before {
+  content: "\e901";
+}
+.vs-bell:before {
+  content: "\e902";
+}
+.vs-caret:before {
+  content: "\e903";
+}
+.vs-check:before {
+  content: "\e904";
+}
+.vs-cog:before {
+  content: "\e905";
+}
+.vs-contact:before {
+  content: "\e906";
+}
+.vs-vericonnect:before {
+  content: "\e908";
+}
+.vs-hardware:before {
+  content: "\e908";
+}
+.vs-account:before {
+  content: "\e909";
+}
+.vs-power:before {
+  content: "\e90a";
+}
+.vs-reports:before {
+  content: "\e90b";
+}

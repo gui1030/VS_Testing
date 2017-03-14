@@ -1,0 +1,55 @@
+$body-bg: $gray-lighter;
+$text-color: $gray-dark;
+
+$brand-primary: $blue;
+$brand-success: $green;
+$brand-info: $purple;
+$brand-warning: $yellow;
+$brand-danger: $red;
+
+$state-success-text: $brand-success;
+$state-success-bg: lighten(adjust-hue($state-success-text, 10), 30%);
+$state-info-text: $brand-info;
+$state-info-bg: lighten(adjust-hue($state-info-text, 10), 30%);
+$state-warning-text: $brand-warning;
+$state-warning-bg: lighten(adjust-hue($state-warning-text, 10), 30%);
+$state-danger-text: $brand-danger;
+$state-danger-bg: lighten(adjust-hue($state-danger-text, 10), 30%);
+
+$navbar-height: 70px;
+$navbar-default-bg: $brand-primary;
+$navbar-default-border: $navbar-default-bg;
+$navbar-default-color: $white;
+$navbar-default-link-color: $navbar-default-color;
+$navbar-default-link-hover-color: $brand-info;
+$navbar-default-link-active-color: $brand-info;
+$navbar-default-link-active-bg: transparent;
+$navbar-default-toggle-hover-bg: $navbar-default-bg;
+$navbar-default-toggle-icon-bar-bg: $navbar-default-color;
+$navbar-default-toggle-border-color: $navbar-default-bg;
+$panel-body-padding: 20px;
+$panel-heading-padding: 20px;
+
+$panel-default-text:          $text-color;
+$panel-default-heading-bg:    $white;
+
+$panel-danger-text: $white;
+$panel-danger-border: $brand-danger;
+$panel-danger-heading-bg: $brand-danger;
+
+$border-radius-base: 2px;
+$border-radius-large: 16px;
+
+$btn-font-weight: 500;
+$btn-default-bg: $gray-light;
+$btn-default-color: $gray-dark;
+$btn-default-border: darken(desaturate(adjust-hue($btn-default-bg, -2.0833), 36.8646), 16.0784);
+$btn-primary-border: darken(desaturate(adjust-hue($brand-primary, -2.0833), 36.8646), 16.0784);
+$btn-info-border: darken(desaturate(adjust-hue($brand-info, -2.0833), 36.8646), 16.0784);
+$btn-success-border: darken(desaturate(adjust-hue($brand-success, -2.0833), 36.8646), 16.0784);
+$btn-warning-border: darken(desaturate(adjust-hue($brand-warning, -2.0833), 36.8646), 16.0784);
+$btn-danger-border: darken(desaturate(adjust-hue($brand-danger, -2.0833), 36.8646), 16.0784);
+
+$badge-bg: $red;
+
+$zindex-navbar-fixed: 1000;

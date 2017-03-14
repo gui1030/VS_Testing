@@ -1,0 +1,10 @@
+%li.list-group-item
+  .collection-item-header
+    .collection-item-image
+      = yield_content! :item_image if content_for?(:item_image)
+    .collection-item-title
+      %h3= yield_content! :item_title
+    .collection-item-actions
+      = yield_content! :actions
+  .collection-item-body
+    = yield

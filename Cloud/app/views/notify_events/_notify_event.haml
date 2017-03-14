@@ -1,0 +1,11 @@
+%li.list-group-item
+  - case notify_event.notify_type
+  - when 'sms'
+    %i.glyphicon.glyphicon-comment.text-primary
+  - when 'email'
+    %i.fa.fa-envelope.text-primary
+  %em
+    = distance_of_time_in_words(notify_event.sent_at, Time.current)
+    ago
+  \-
+  = notify_event.message

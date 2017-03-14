@@ -1,0 +1,6 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 Network
+  %div{data: { visualization: 'network', source: unit_network_path(@unit, format: :json) } }
+    .loading
+      = render 'shared/spinner'

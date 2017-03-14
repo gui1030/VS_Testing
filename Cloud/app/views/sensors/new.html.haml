@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= link_to @unit.name, @unit
+  %h2 New Sensor
+  = render partial: 'form', locals: { target: unit_sensors_path(@unit) }

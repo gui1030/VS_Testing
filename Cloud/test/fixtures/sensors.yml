@@ -1,0 +1,48 @@
+# == Schema Information
+#
+# Table name: sensors
+#
+#  id                        :integer          not null, primary key
+#  mac                       :string(255)
+#  location_id               :integer
+#  unit_id                   :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  last_online               :datetime
+#  name                      :string(255)
+#  location_type             :string(255)
+#  parent_mac                :string(255)
+#  battery                   :integer
+#  readings_count            :integer          default(0), not null
+#  successful_readings_count :integer          default(0), not null
+#  rssi                      :integer
+#  temp                      :float(24)
+#  humidity                  :float(24)
+#  deleted_at                :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+hub:
+  mac: sensor_hub
+  unit: one
+  location: one (Hub)
+repeater:
+  mac: sensor_repeater
+  unit: one
+cooler_one:
+  mac: sensor_cooler_one
+  unit: one
+  location: one (Cooler)
+cooler_two:
+  mac: sensor_cooler_two
+  unit: one
+  location: two (Cooler)
+cooler_four:
+  mac: sensor_cooler_four
+  unit: two
+  location: four (Cooler)

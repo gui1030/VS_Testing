@@ -1,0 +1,18 @@
+columns = ['Reading Time',
+           "Temperature (#{temp_units})",
+           'Humidity (RH)',
+           'Compliant?',
+           'Battery (dV)']
+columns += ['RSSI (dBm)', 'Parent'] if current_user.is_a? Admin
+sheet.add_row columns
+
+readings.each do |reading|
+  row =
+    [reading.reading_time.in_time_zone.strftime('%D %r %Z'),
+     convert_temp(reading.temp),
+     reading.humidity,
+     (reading.success ? 'Yes' : 'No'),
+     reading.battery]
+  row += [reading.rssi, reading.parent.present? ? reading.parent.to_s : reading.parent_mac] if current_user.is_a? Admin
+  sheet.add_row row
+end

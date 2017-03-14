@@ -1,0 +1,6 @@
+.panel.panel-default.no-border
+  .panel-heading
+    %h1
+      Admins
+      = link_to '+', new_admin_path
+  %ul.list-group= render partial: 'admin', collection: @admins, layout: 'shared/collection_item'

@@ -1,0 +1,6 @@
+= nav_link account_path(current_user.account) do
+  %i.nav-icon.vs.vs-dashboard
+  Dashboard
+= render 'accounts/links', account: current_account
+= render 'units/links', unit: current_unit
+= render 'units/hardware_links', unit: current_unit

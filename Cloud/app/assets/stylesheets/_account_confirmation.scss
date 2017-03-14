@@ -1,0 +1,45 @@
+.step-progress {
+  margin-bottom: 2em;
+  .step-labels {
+    position: relative;
+    height: 1.5em;
+    @extend .hidden-xs;
+    label {
+      position: absolute;
+      display: inline-block;
+      transform: translateX(-50%);
+      &.step-1 {
+        left: 57 / 514 * 100%;
+      }
+      &.step-2 {
+        left: 157 / 514 * 100%;
+      }
+
+      &.step-3 {
+        left: 257 / 514 * 100%;
+      }
+
+      &.step-4 {
+        left: 357 / 514 * 100%;
+      }
+
+      &.step-5 {
+        left: 457 / 514 * 100%;
+      }
+      &.past {
+        color: $gray-dark;
+      }
+      &.current {
+        color: $gray-darker;
+      }
+      &.future {
+        color: $gray-light;
+      }
+    }
+  }
+  .step-indicator {
+    img {
+      width: 100%;
+    }
+  }
+}

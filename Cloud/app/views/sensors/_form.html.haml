@@ -1,0 +1,6 @@
+= bootstrap_form_for @sensor, url: target do |f|
+  = f.text_field :name
+  = f.text_field :mac, label: "MAC" if current_user.is_a? Admin
+  .text-center
+    = link_to "Back", unit_sensors_path(@unit), class: "btn btn-default block-xs"
+    = f.submit class: 'btn btn-primary block-xs'

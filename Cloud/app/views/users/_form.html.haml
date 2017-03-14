@@ -1,0 +1,14 @@
+= bootstrap_form_for(user) do |f|
+  .row
+    .col-sm-6
+      = f.text_field :firstname, label: 'First Name'
+    .col-sm-6
+      = f.text_field :lastname, label: 'Last Name'
+  .row
+    .col-sm-6
+      = f.text_field :email
+    .col-sm-6
+      = f.text_field :phone
+  .text-center
+    = link_to "Back", index, class: 'btn btn-default block-xs'
+    = f.submit class: 'btn btn-primary block-xs'

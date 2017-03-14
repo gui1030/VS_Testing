@@ -1,0 +1,10 @@
+- content_for :item_title, cooler
+= content_for :actions do
+  = edit_button(cooler)
+  = destroy_button(cooler)
+= label_group 'Low Temp', "#{convert_temp(cooler.bottom_temp_threshold)}°"
+= label_group 'High Temp', "#{convert_temp(cooler.top_temp_threshold)}°"
+= label_group 'Low Humidity', "#{cooler.bottom_humidity_threshold} RH(%)"
+= label_group 'High Humidity', "#{cooler.top_humidity_threshold} RH(%)"
+= label_group 'Notifications', on_off(cooler.active_notifications)
+= label_group 'Description', cooler.description

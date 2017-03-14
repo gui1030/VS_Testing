@@ -1,0 +1,19 @@
+= bootstrap_form_for @line_check_list, url: target do |f|
+  .row
+    .col-xs-12
+      = f.text_field :name
+  %h4 Schedules
+  .row
+    = f.fields_for :line_check_schedules do |schedule_form|
+      = render 'line_check_schedule_fields', f: schedule_form
+    #new-schedule
+  .links
+    = link_to_add_association 'Add Schedule', f, :line_check_schedules, class: 'btn btn-default', 'data-association-insertion-node' => '#new-schedule'
+  %h4 Items
+  = f.fields_for :line_check_items do |item_form|
+    = render 'line_check_item_fields', f: item_form
+  .links
+    = link_to_add_association 'Add Item', f, :line_check_items, class: 'btn btn-default'
+  %text-center
+    = link_to 'Back', unit_veritemp_line_check_lists_path(@unit), class: 'btn btn-default block-xs'
+    = f.submit class: 'btn btn-primary block-xs'

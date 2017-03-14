@@ -1,0 +1,10 @@
+%tr
+  %td= cooler.name
+  %td= stats.min ? "#{convert_temp_for(@user, stats.min)}°" : 'n/a'
+  %td= stats.max ? "#{convert_temp_for(@user, stats.max)}°" : 'n/a'
+  %td= stats.avg ? "#{convert_temp_for(@user, stats.avg)}°" : 'n/a'
+  %td= stats.hum_min ? "#{stats.hum_min}%" : 'n/a'
+  %td= stats.hum_max ? "#{stats.hum_max}%" : 'n/a'
+  %td= stats.hum_avg ? "#{stats.hum_avg}%" : 'n/a'
+  %td{class: compliance_class(stats.compliance)}
+    = stats.compliance ? "#{(stats.compliance * 100).round}%" : 'n/a'

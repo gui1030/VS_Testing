@@ -1,0 +1,14 @@
+- content_for :content do
+  .panel.panel-body
+    .step-progress
+      .step-labels
+        %label{class: step_class(1)} Step 1
+        %label{class: step_class(2)} Step 2
+        %label{class: step_class(3)} Step 3
+        %label{class: step_class(4)} Step 4
+        %label{class: step_class(5)} Step 5
+      .step-indicator
+        = image_tag("progress-#{current_step}")
+    %h1.text-center= yield(:step_title)
+    = yield
+= render template: 'layouts/application'

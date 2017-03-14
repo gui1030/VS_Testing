@@ -1,0 +1,11 @@
+- if @cooler.high_humidity?
+  - content_for :subtitle, "#{@cooler} (#{@cooler.unit}) humidity is very high"
+- elsif @cooler.low_humidity?
+  - content_for :subtitle, "#{@cooler} (#{@cooler.unit}) humidity is very low"
+%p
+  "#{@cooler} humidity is #{@cooler.sensor.humidity}RH(%). It has been more than #{@cooler.unit.humidity_notify_threshold}% out of range
+  (#{@cooler.bottom_humidity_threshold}% - #{@cooler.top_humidity_threshold}%) for #{distance_of_time_in_words(@cooler.humidity_time_out_of_notify_range)}.
+%p Use the buttons below to manage your notifications.
+%center
+  %p= link_to 'Notification Settings', edit_user_url(@user, anchor: 'notifications'), class: 'btn btn-primary'
+  %p= link_to 'Unsubscribe', unsubscribe_users_url(token: @token, type: :email_notifications), class: 'btn btn-warning'

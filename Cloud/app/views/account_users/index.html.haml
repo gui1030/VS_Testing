@@ -1,0 +1,7 @@
+.panel.panel-default.no-border
+  .panel-heading
+    %h1= link_to @account.name, @account
+    %h2
+      Users
+      = link_to '+', new_account_user_path(@account) if (current_user.account_admin? || current_user.admin?)
+  %ul.list-group= render partial: 'account_user', collection: @users, layout: 'shared/collection_item'

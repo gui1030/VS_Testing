@@ -1,0 +1,27 @@
+.panel.panel-primary
+  .panel-heading
+    = link_to "#orders-#{order.id}", data: { toggle: 'collapse' }, class: 'collapsed' do
+      %h3.panel-title= order.unit
+      %h4.panel-title
+        = order.created_at.strftime('%-m/%-d/%Y %I:%m %p')
+  .panel-collapse.collapse{id: "orders-#{order.id}"}
+    %ul.list-group
+      - order.line_items.each do |item|
+        -unless item.sensor.blank?
+          %li.list-group-item= item.sensor.name ||= ""
+        -else
+          %li.list-group-item= ""
+  - if order.fulfilled?
+    .panel-footer
+      = label_group 'Tracking Number', order.tracking_number
+      .form-group
+        = link_to track_order_path(order), remote: true, class: 'btn btn-primary btn-tracking' do
+          Track Shipment
+          .spinner.hide
+            %i.fa.fa-spinner.animate-spin
+      .shipment-events
+  - elsif policy(order).fulfillment?
+    .panel-footer
+      = link_to 'Process', order_fulfillment_index_path(order), class: 'btn btn-primary'
+      - if order.claimed_by?(current_user)
+        %span{data: { countdown: order.deadline } }

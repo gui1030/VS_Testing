@@ -1,0 +1,7 @@
+@include keyframes(spin) {
+  100% { transform: rotate(360deg) };
+}
+
+.animate-spin {
+  @include animation('spin 2s linear infinite');
+}

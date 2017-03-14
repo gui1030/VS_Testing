@@ -1,0 +1,10 @@
+.panel.panel-body
+  = bootstrap_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :role => 'form'}) do |f|
+    = f.email_field :email, autofocus: true
+    - if devise_mapping.recoverable?
+      = link_to "Forgot password?", new_password_path(resource_name), class: 'pull-right'
+    = f.password_field :password
+    - if devise_mapping.rememberable?
+      .form-group.switch.pull-right.rtl
+        = f.check_box :remember_me, data: { 'on-text' => 'Yes', 'off-text' => 'No', 'on-color' => 'success', size: 'small' }
+    = f.submit 'Sign in', :class => 'btn btn-primary btn-block'

@@ -1,0 +1,13 @@
+- unless units.empty?
+  .panel.panel-danger.panel-alerts
+    .panel-heading
+      =link_to "#alerts-#{@account.id}", data: { toggle: 'collapse' } do
+        %h3.panel-title
+          %span.tag= units.map(&:alerts).map(&:count).reduce(:+)
+          Alerts
+    .panel-collapse.collapse.in{id: "alerts-#{@account.id}"}
+      %ul.list-group
+        - units.select(&:alerts?).each do |unit|
+          = link_to unit, class: 'list-group-item' do
+            = unit
+            %span.tag.tag-danger= unit.alerts.size

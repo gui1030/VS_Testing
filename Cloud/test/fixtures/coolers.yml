@@ -1,0 +1,50 @@
+# == Schema Information
+#
+# Table name: coolers
+#
+#  id                           :integer          not null, primary key
+#  name                         :string(255)
+#  top_temp_threshold           :float(24)        default(5.0)
+#  bottom_temp_threshold        :float(24)        default(0.0)
+#  unit_id                      :integer
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  description                  :text(65535)
+#  active_notifications         :boolean          default(TRUE)
+#  last_threshold_sent          :datetime
+#  deleted_at                   :datetime
+#  top_humidity_threshold       :float(24)        default(81.0)
+#  bottom_humidity_threshold    :float(24)        default(74.0)
+#  humidity_notifications       :boolean          default(TRUE)
+#  last_humidity_threshold_sent :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+  name: Cooler 1
+  unit: one
+  bottom_temp_threshold: 0
+  top_temp_threshold: 5
+
+two:
+  name: Cooler 2
+  unit: one
+  bottom_temp_threshold: 1
+  top_temp_threshold: 3
+
+three:
+  name: No Sensor
+  unit: one
+  bottom_temp_threshold: 0
+  top_temp_threshold: 5
+
+four:
+  name: Cooler 4
+  unit: two
+  bottom_temp_threshold: 0
+  top_temp_threshold: 5

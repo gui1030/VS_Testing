@@ -1,0 +1,3 @@
+= link_to '#', class: 'chart-link list-group-item', data: { slide: "#cooler-#{model.id}", tab: 'temp' } do
+  #{model} humidity is very high
+  %span.tag.tag-danger= "#{model.sensor.humidity} RH(%)"

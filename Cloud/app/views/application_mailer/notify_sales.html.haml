@@ -1,0 +1,26 @@
+%p
+  %strong First Name:
+  %span= @user.firstname
+%p
+  %strong Last Name:
+  %span= @user.lastname
+%p
+  %strong Username:
+  %span= @user.username
+%p
+  %strong Email:
+  %span= @user.email
+%p
+  %strong Unit Name:
+  %span= @unit.name
+%p
+  %strong City:
+  %span= @unit.city
+%p
+  %strong State:
+  %span= @unit.state
+%p
+  %strong #{@coolers.count} Coolers:
+%ul
+  - @coolers.each do |l|
+    %li= "#{l.location_name} (#{l.bottom_temp_threshold} - #{l.top_temp_threshold}): #{l.description}"

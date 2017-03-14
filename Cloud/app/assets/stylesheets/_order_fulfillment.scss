@@ -1,0 +1,14 @@
+.timer {
+  position: absolute;
+  top: 0;
+  right: 3px;
+}
+
+.btn-tracking {
+  position: relative;
+  .spinner {
+    @extend .center-vertical;
+    position: absolute;
+    right: 10px;
+  }
+}

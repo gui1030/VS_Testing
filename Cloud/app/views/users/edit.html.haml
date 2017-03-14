@@ -1,0 +1,103 @@
+.panel.panel-body
+  .row
+    .col-sm-9
+      %h1= @user
+      %h2 Settings
+    .col-sm-3
+      = image_tag @user.avatar.url(:thumb), class: 'avatar avatar-thumb avatar-right'
+  = bootstrap_form_for @user do |f|
+    .panel.panel-primary
+      .panel-heading#contact
+        %h3.panel-title
+          %i.vs.vs-contact
+          Profile
+      .panel-body
+        .row
+          .col-sm-6
+            = f.text_field :firstname, label: 'First Name'
+          .col-sm-6
+            = f.text_field :lastname, label: 'Last Name'
+        .row
+          .col-sm-6
+            = f.text_field :email
+          .col-sm-6
+            = f.text_field :phone
+        .row
+          .col-sm-6
+            = f.time_zone_select :time_zone, nil, { label: "Time Zone" }
+          .col-sm-6
+            = f.select :default_units, User::UNITS, { label: "Unit System" }
+        .row
+          .col-sm-6
+            = f.file_field :avatar, class: 'form-file-control'
+          .col-sm-6
+            .form-group
+              = link_to 'Reset Password', reset_password_user_path(@user), method: :post, class: "btn btn-primary btn-block"
+    - unless @user.is_a? Admin
+      .panel.panel-primary#reports
+        .panel-heading
+          %h3.panel-title
+            %i.vs.vs-bar-chart
+            Reports
+        .panel-body
+          .row
+            .col-sm-6
+              = f.form_group :daily_notification, label: { text: 'Email Report'} do
+                = f.check_box :daily_notification, label: ''
+            .col-sm-6
+              = f.select :report_time, Unit::TIME_TO_INT, {label: 'Report Time'}, { class: "selectpicker"}
+          .row
+            .col-sm-6
+              = f.select :report_frequency, User::REPORT_FREQUENCY, {label: 'Report Frequency'}, {id: "report_frequency"}
+            .col-sm-6
+              #report_weekday
+                = f.select :report_weekday, User::REPORT_WEEKDAY, {label: 'Report Weekday'}
+              #report_day
+                = f.select :report_day, User.report_day, {label: 'Report Day'}
+      .panel.panel-primary#notifications
+        .panel-heading
+          %h3.panel-title
+            %i.vs.vs-bell
+            Notifications
+        .panel-body
+          .row
+            .col-sm-6
+              = f.form_group :email_notification, label: { text: 'Email Notifications' } do
+                = f.check_box :email_notification, label: ''
+            .col-sm-6
+              = f.form_group :sms_notification, label: { text: 'SMS Notifications' } do
+                = f.check_box :sms_notification, label: ''
+    - if @user.is_a?(AccountUser) && policy(@user).permissions?
+      .panel.panel-primary#permissions
+        .panel-heading
+          %h3.panel-title
+            %i.fa.fa-lock
+            Permissions
+        .panel-body
+          - if policy(@user).account_admin?
+            .form-group
+            = f.form_group :account_admin, label: { text: 'Account Admin' } do
+              = f.check_box :account_admin, label: '', data: { toggle: 'collapse', target: '#account_user_permissions'}
+          #account_user_permissions.collapse{class: @user.account_admin? ? '' : 'in'}
+            = f.collection_check_boxes :unit_ids, policy_scope(@user.account.units), :id, :name, label: 'Units' do |b|
+              .checkbox
+                = b.label { b.check_box + " #{b.text}" }
+
+    - if current_user.is_a? Admin
+      .panel.panel-primary#admin
+        .panel-heading
+          %h3.panel-title
+            %i.fa.fa-lock
+            Admin
+        .panel-body
+          .row
+            .col-sm-6
+              = f.form_group :probe_enabled, label: { text: 'Probe Enabled' } do
+                = f.check_box :probe_enabled, label: ''
+          - if !@user.confirmed?
+            .row
+              .col-xs-12
+                = link_to 'Confirm User', user_confirmation_path(confirmation_token: @user.confirmation_token), class: 'btn btn-primary'
+    .text-center
+      = link_to 'Back', referer, class: 'btn btn-default block-xs'
+      = f.submit 'Update User', class: 'btn btn-primary block-xs'

@@ -1,0 +1,3 @@
+.panel.panel-body
+  %h2 #{@line_check.line_check_list.name} #{@line_check.created_at.strftime("%m/%d/%Y %l:%M%p")}
+  = link_to 'Back', veritemp_line_check_list_path(@line_check.list), class: 'btn btn-default'

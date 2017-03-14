@@ -1,0 +1,10 @@
+- content_for :subtitle, "#{@cooler} (#{@cooler.unit}) is out of range"
+%p
+  #{@cooler} (#{convert_temp_for(@user, @cooler.sensor.temp)}°) has been more than
+  #{scale_temp_for(@user, @unit.notify_threshold)}° out of range
+  (#{convert_temp_for(@user, @cooler.bottom_temp_threshold)}° - #{convert_temp_for(@user, @cooler.top_temp_threshold)}°)
+  for #{distance_of_time_in_words(@cooler.time_out_of_notify_range)}.
+%p Use the buttons below to manage your notifications.
+%center
+  %p= link_to 'Notification Settings', edit_user_url(@user, anchor: 'notifications'), class: 'btn btn-primary'
+  %p= link_to 'Unsubscribe', unsubscribe_users_url(token: @token, type: :email_notifications), class: 'btn btn-warning'

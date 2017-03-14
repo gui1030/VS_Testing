@@ -1,0 +1,7 @@
+- content_for :content do
+  .panel.panel-body.relative
+    %h1= @order.unit
+    %h2 Order - #{@order.created_at.in_time_zone.strftime('%-m/%-d/%Y %I:%m %p')}
+    .timer{data: { countdown: @order.deadline} }
+    = yield
+= render template: 'layouts/application'

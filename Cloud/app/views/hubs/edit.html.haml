@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= @hub
+  %h2 Settings
+  = render partial: 'form', locals: { target: hub_path(@hub) }

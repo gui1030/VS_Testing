@@ -1,0 +1,1 @@
+particle compile e --target 0.5.2 Source --saveTo VeriConnect-v23.bin

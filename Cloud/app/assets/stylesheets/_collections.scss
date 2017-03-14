@@ -1,0 +1,138 @@
+.collection-item-header {
+  position:relative;
+  margin-bottom: 10px;
+  min-height: 50px;
+  margin-bottom: 10px;
+  &> .collection-item-image {
+    height: 50px;
+    width: 50px;
+    margin-bottom: 10px;
+    position: relative;
+    @media(min-width: $screen-sm-min) {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    img {
+      @extend .center-absolute;
+      max-width: 50px;
+    }
+  }
+  &> .collection-item-title {
+    @media(min-width: $screen-sm-min) {
+      position: absolute;
+      top: 50%;
+      left: 60px;
+      right: 120px;
+      transform: translateY(-50%);
+      h3 {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &> .collection-item-actions {
+    @extend .actions;
+    position: absolute;
+    top: 5px;
+    right: 0;
+  }
+}
+
+.collection-item-body {
+  @media(min-width: $screen-sm-min) {
+    margin-left: 60px;
+  }
+  .label-group {
+    .label-group-label, .label-group-value {
+      padding: 3px 0px;
+    }
+    .label-group-label {
+      text-transform: uppercase;
+      color: $gray;
+      label {
+        margin-bottom: 0;
+      }
+    }
+    .label-group-value {
+      position: relative;
+      min-height:26px;
+      .tag {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
+.no-image {
+  .collection-item-header {
+    .collection-item-image {
+      display: none;
+    }
+    .collection-item-title {
+      padding-top: 50px;
+      @media(min-width: $screen-sm-min) {
+        padding-top: 0;
+        left: 0;
+      }
+    }
+  }
+  .collection-item-body {
+    @media(min-width: $screen-sm-min) {
+      margin-left: 0;
+    }
+  }
+}
+
+.pagination {
+  position: relative;
+  margin: 0;
+  display: block;
+  text-align: center;
+  @media(min-width: $screen-sm-min) {
+    text-align: right;
+  }
+  .page {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    margin: 10px 0;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    &.current {
+      background-color: $brand-primary;
+      color: $white;
+    }
+    a {
+      display: block;
+    }
+  }
+
+  .prev, .next {
+    display: inline-block;
+    margin: 5px 0;
+    a {
+      font-size: 1.5em;
+      color: $gray-light;
+    }
+  }
+}
+
+.page-info {
+  min-height: 40px;
+  position: relative;
+  &> * {
+    display: inline-block;
+    @extend .center-vertical;
+    position: absolute;
+  }
+}
+
+.search {
+  @media(min-width: $screen-sm-min) {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,29 @@
+%h3 Shipping
+= bootstrap_form_tag url: order_shipping_label_path(@order), html: { id: 'shipping-form', target: '_blank'} do |f|
+  %h4 Destination
+  = f.fields_for :destination do |dest|
+    = dest.hidden_field :country, value: 'US'
+    = dest.hidden_field :address_type, value: 'commercial'
+    = dest.text_field :company_name, value: @order.unit.name, required: true
+    .row
+      .col-sm-6
+        = dest.text_field :address1, value: @order.unit.address, label: 'Address 1', required: true
+      .col-sm-6
+        = dest.text_field :address2, value: @order.unit.address1, label: 'Address 2'
+    .row
+      .col-sm-6
+        = dest.text_field :city, value: @order.unit.city, required: true
+      .col-sm-3.col-xs-6
+        = dest.collection_select :state, us_states, :second, :first, selected: @order.unit.state
+      .col-sm-3.col-xs-6
+        = dest.text_field :zip, label: 'Zip Code', value: @order.unit.zipcode, required: true
+  %h4 Package
+  = f.fields_for :package do |pack|
+    = pack.number_field :weight, label: 'Weight (Ounces)', step: 0.1, required: true
+  .form-group
+    = f.submit 'Order Shipping Label', class: 'btn btn-primary block-xs'
+= bootstrap_form_for @order, url: wizard_path, method: :put do |f|
+  = f.text_field :tracking_number
+  .text-center
+    = link_to 'Back', current_page?(previous_wizard_path) ? unit_orders_path(@order.unit) : previous_wizard_path, class: 'btn btn-default block-xs'
+    = f.submit 'Complete Order', class: 'btn btn-primary block-xs'

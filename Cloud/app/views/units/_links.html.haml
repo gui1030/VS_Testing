@@ -1,0 +1,15 @@
+-if unit && unit.persisted?
+  %li
+    %a.collapsed{ aria: { expanded: 'false', haspopup: 'true'}, data: { toggle: 'collapse', target: '#unit-menu'}, role: 'button'}
+      %i.nav-icon.vs.vs-unit
+      Unit
+    %ul.collapse#unit-menu{ role: 'menu'}
+      = nav_link "Dashboard", unit if policy(unit).show?
+      = nav_link "Coolers", unit_coolers_path(unit) if policy(Cooler).index?
+      = nav_link "Users", unit_users_path(unit) if policy(UnitUser).index?
+      = nav_link "Reports", new_unit_report_path(unit) if policy(unit).show?
+      = nav_link 'Orders', unit_orders_path(unit) if policy(Order).index?
+      = nav_link "Unit Settings", edit_unit_path(unit) if policy(unit).edit?
+      .hide
+        = nav_link "New Cooler", new_unit_cooler_path(unit)
+        = nav_link "New Users", new_unit_user_path(unit)

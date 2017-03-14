@@ -1,0 +1,8 @@
+.panel.panel-default.no-border
+  .panel-heading
+    %h1= link_to @account.name, @account
+    %h2
+      Units
+      - if policy(Unit.new(account: @account)).new?
+        = link_to '+', new_account_unit_path(@account)
+  %ul.list-group.no-image= render partial: :unit, collection: @units, layout: 'shared/collection_item'

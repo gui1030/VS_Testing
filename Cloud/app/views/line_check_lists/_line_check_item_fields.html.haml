@@ -1,0 +1,12 @@
+.nested-fields.well
+  .row
+    .col-xs-12
+      = f.text_field :name, append: remove_from(f)
+  .row
+    .col-sm-6
+      = f.number_field :temp_low, value: f.object && convert_temp(f.object.temp_low), label: "Bottom Temperature Threshold (#{temp_units})"
+    .col-sm-6
+      = f.number_field :temp_high, value: f.object && convert_temp(f.object.temp_high), label: "Top Temperature Threshold (#{temp_units})"
+  .row
+    .col-xs-12
+      = f.text_area :description

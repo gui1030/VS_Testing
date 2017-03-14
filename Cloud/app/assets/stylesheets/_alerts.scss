@@ -1,0 +1,26 @@
+.panel-alerts {
+  border-width: 0;
+  & > .panel-heading {
+    padding: 20px;
+    .tag {
+      color: $brand-danger;
+      background-color: $white;
+      border-color: $white;
+    }
+  }
+  .tag {
+    position: relative;
+    top: -3px;
+    float: left;
+    margin-right: 5px;
+  }
+  .list-group {
+    & > .list-group-item {
+      font-weight: 500;
+      & > .tag {
+        float: right;
+        margin-right: inherit;
+      }
+    }
+  }
+}

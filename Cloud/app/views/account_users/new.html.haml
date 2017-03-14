@@ -1,0 +1,26 @@
+.panel.panel-body
+  %h1= link_to @account.name, @account
+  %h2 New User
+  = bootstrap_form_for(@user) do |f|
+    .row
+      .col-sm-6
+        = f.text_field :firstname, label: 'First Name'
+      .col-sm-6
+        = f.text_field :lastname, label: 'Last Name'
+    .row
+      .col-sm-6
+        = f.text_field :email
+      .col-sm-6
+        = f.text_field :phone
+    - if policy(@user).account_admin?
+      .form-group
+      = f.form_group :account_admin, label: { text: 'Account Admin' } do
+        = f.check_box :account_admin, label: '', data: { toggle: 'collapse', target: '#account_user_permissions'}
+    - if policy(@user).permissions?
+      #account_user_permissions.collapse{class: @user.account_admin? ? '' : 'in'}
+        = f.collection_check_boxes :unit_ids, policy_scope(@account.units), :id, :name, label: 'Units' do |b|
+          .checkbox
+            = b.label { b.check_box + " #{b.text}" }
+    .text-center
+      = link_to "Back", account_users_path(@account), class: 'btn btn-default block-xs'
+      = f.submit class: 'btn btn-primary block-xs'

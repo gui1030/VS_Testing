@@ -1,0 +1,43 @@
+.bootstrap-switch {
+  border-radius: $btn-border-radius-large;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
+  color: $btn-primary-color;
+  background: $btn-primary-bg;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-info,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-info {
+  color: $btn-info-color;
+  background: $btn-info-bg;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success {
+  color: $btn-success-color;
+  background: $btn-success-bg;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-warning,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-warning {
+  color: $btn-warning-color;
+  background: $btn-warning-bg;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-danger,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-danger {
+  color: $btn-danger-color;
+  background: $btn-danger-bg;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default,
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+  color: $black;
+  background: $body-bg;
+}
+
+.no-switch {
+  .checkbox {
+    margin-top: 10px;
+    label {
+      padding-left: 20px;
+    }
+  }
+}

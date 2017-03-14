@@ -1,0 +1,54 @@
+= bootstrap_form_for @unit, url: target do |f|
+  .panel.panel-primary
+    .panel-heading
+      %h3.panel-title
+        %i.fa.fa-location-arrow
+        Contact
+    .panel-body
+      .row
+        .col-xs-12
+          = f.text_field :name, label: "Unit Name"
+      .row
+        .col-sm-6
+          = f.text_field :address, :label => "Address 1"
+        .col-sm-6
+          = f.text_field :address1, :label => "Address 2",class: "form-control"
+      .row
+        .col-sm-6
+          = f.text_field :city, :city => "City",class: "form-control"
+        .col-sm-3.col-xs-6
+          = f.collection_select :state, us_states, :second, :first
+        .col-sm-3.col-xs-6
+          = f.text_field :zipcode, :label => "Zip Code",class: "form-control"
+  .panel.panel-primary
+    .panel-heading
+      %h3.panel-title
+        %i.vs.vs-bell
+        Notifications
+    .panel-body
+      %h3
+        Temperature
+      .panel.panel-primary
+        .panel-body
+          = f.number_field :notify_threshold, label: "Threshold (#{temp_units}) #{tooltip("Degrees out of compliance before a notification is triggered")}".html_safe, value: scale_temp(@unit.notify_threshold)
+          = f.number_field :recurring_notify_duration, label: "Timeout (minutes) #{tooltip("Minutes after a notification is triggered before it can be triggered again")}".html_safe
+      %h3
+        Humidity
+      .panel.panel-primary
+        .panel-body
+          = f.number_field :humidity_notify_threshold, label: "Threshold #{tooltip("Percentage out of compliance before a notification is triggered")}".html_safe, value: @unit.humidity_notify_threshold
+          = f.number_field :humidity_recurring_notify_duration, label: "Timeout (minutes) #{tooltip("Minutes after a notification is triggered before it can be triggered again")}".html_safe
+  - if current_user.is_a? Admin
+    .panel.panel-primary
+      .panel-heading
+        %h3.panel-title
+          %i.fa.fa-lock
+          Admin
+      .panel-body
+        .row
+          .col-sm-6
+            = f.form_group :probe_enabled, label: { text: 'Probe' } do
+              = f.check_box :probe_enabled, label: ''
+  .text-center
+    = link_to "Back", referer, class: "btn btn-default block-xs"
+    = f.submit class: "btn btn-primary block-xs"

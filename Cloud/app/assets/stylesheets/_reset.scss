@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  padding-top: $navbar-height + 20;
+}
+
+// make all images responsive by default
+img {
+  @extend .img-responsive;
+  margin: 0 auto;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
+}
+
+:focus {
+  outline: none;
+}

@@ -1,0 +1,36 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1", :name => "viewport"}
+    %link{rel: 'stylesheet', href: 'mail'}
+  %body
+    %center
+      #container
+        %header
+          = image_tag 'vs_logo_blue', class: 'img-responsive'
+        .main
+          %h1 Hi #{@user.firstname},
+          %h2= yield :subtitle
+          = yield
+          %p
+            Please contact
+            %a{:href => "mailto:support@verisolutions.co", :target => "_blank"} support@verisolutions.co
+            or call
+            %a{:href => "tel:+1-866-294-9240"} (866) 294-9240
+            for immediate assistance.
+          %p Thanks,
+          %p Your VeriSolutions Team
+        %footer
+          %section.app-links
+            = link_to "https://itunes.apple.com/us/app/verisolutions/id1176993806?mt=8", target: "_blank" do
+              = image_tag 'app_store_badge', width: "180", alt: 'Download on the App Store'
+            -# = link_to "https://play.google.com/store/apps/details?id=com.verisolutions.veritemp", target: "_blank" do
+            -#   = image_tag 'google_play_badge', alt: 'Get it on Google Play', class: 'img-responsive'
+          %section.social-media
+            = link_to "https://twitter.com/veri_temp", target: "_blank" do
+              = image_tag "http://cdn-images.mailchimp.com/icons/social-block-v2/color-twitter-48.png", class: 'img-responsive'
+            = link_to "http://www.facebook.com/verisolutions", target: "_blank" do
+              = image_tag "http://cdn-images.mailchimp.com/icons/social-block-v2/color-facebook-48.png", class: 'img-responsive'
+          %section.copyright
+            %em Copyright © 2017 VeriSolutions, All rights reserved.

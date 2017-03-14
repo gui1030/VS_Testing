@@ -1,0 +1,6 @@
+wb = xlsx_package.workbook
+@coolers.each do |cooler|
+  wb.add_worksheet(name: cooler.name) do |sheet|
+    render 'sensor_readings/sheet', readings: cooler.readings.in(@range), sheet: sheet
+  end
+end

@@ -1,0 +1,8 @@
+.panel.panel-default.no-border
+  .panel-heading
+    %h1= link_to @unit.name, @unit
+    %h2
+      VeriSense
+      - if policy(Sensor).new?
+        = link_to '+', new_unit_sensor_path(@unit)
+  %ul.list-group= render partial: 'sensor', collection: @sensors

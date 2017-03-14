@@ -1,0 +1,12 @@
+%li.list-group-item.text-center
+  %h3= hub
+  .actions
+    - if policy(hub).restart?
+      = link_to restart_hub_path(hub), method: :post, class: 'btn btn-default', title: 'Restart' do
+        %i.fa.fa-power-off
+    = edit_button(hub)
+    = destroy_button(hub)
+  %div{data: { toggle: 'tooltip', title: "Last Online: #{hub.last_online && hub.last_online.in_time_zone.strftime('%c')}"}}
+    = inline_svg('vericonnect', class: 'hardware-logo')
+  .hardware-status
+    = lazy_value(status_hub_path(hub))

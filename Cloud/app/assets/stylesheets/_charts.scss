@@ -1,0 +1,115 @@
+.charts {
+  .front {
+    position: relative;
+    z-index: 1;
+  }
+  .chart-controls {
+    @extend .clearfix;
+    .select {
+      color: $gray;
+      position: relative;
+      width: 100%;
+      select {
+        width: 100%;
+        outline: none;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        border: 2px solid $gray;
+        border-radius: 20px;
+        padding: 8px 30px 12px 20px;
+        background-color: transparent;
+        text-transform: uppercase;
+      }
+      &:after {
+        content:"\f0d7";
+        font-family: FontAwesome;
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        z-index: 1;
+        text-align: center;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .chart-headers {
+    @extend .text-center;
+  }
+
+  .chart-export {
+    position: relative;
+    z-index: 10;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .chart-carousel {
+    &:hover {
+      .slick-arrow:before {
+        opacity: 0.8;
+      }
+    }
+    .slick-arrow {
+      position: absolute;
+      @extend .center-vertical;
+      z-index: 10;
+      height: 60px;
+      padding:0;
+      visibility: hidden;
+      &:before {
+        transition: opacity 0.15s linear;
+        opacity: 0.0;
+        border-radius: $border-radius-base;
+        padding: 20px 10px;
+        position: absolute;
+        top:0;
+        visibility: visible;
+        font-family: 'FontAwesome';
+        background-color: $gray;
+        color: $white;
+      }
+    }
+
+    .slick-prev {
+      left: 0;
+      &:before {
+        left: 0;
+        content: '\f060';
+      }
+    }
+    .slick-next {
+      right: 0;
+      &:before {
+        content: '\f061';
+        right: 0;
+      }
+    }
+
+    .slick-slider {
+      padding: 0 20px;
+    }
+  }
+
+  .chart {
+    position: relative;
+    margin-top: -36px;
+    padding-top: 36px;
+    .loading {
+      @extend .center-absolute;
+    }
+    .legend {
+      text-transform: uppercase;
+      text-align: center;
+      visibility: hidden;
+      label {
+        color: $gray;
+      }
+    }
+    .canvas {
+      height: 300px;
+    }
+  }
+}

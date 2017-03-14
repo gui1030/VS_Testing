@@ -1,0 +1,4 @@
+.panel.panel-body
+  %h1= @sensor
+  %h2 Settings
+  = render partial: 'form', locals: { target: sensor_path(@sensor) }

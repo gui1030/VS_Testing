@@ -1,0 +1,33 @@
+!!!
+%html
+  %head
+    %title= content_for?(:title) ? yield(:title) : "VeriSolutions"
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    %meta{:content => "#{content_for?(:description) ? yield(:description) : "VeriSolutions"}", :name => "description"}/
+    = favicon_link_tag 'favicon.ico'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  %body
+    = csrf_meta_tags
+    %header
+      = render 'shared/header'
+    %main.container-fluid
+      - if show_navigation?
+        .row
+          .col-xs-9.col-sm-4.col-md-3.offcanvas-xs#sidebar
+            = render 'shared/navigation'
+          .col-sm-8.col-sm-offset-4.col-md-9.col-md-offset-3
+            = render 'shared/flash'
+            = content_for(:content) ? yield(:content) : yield
+      - elsif devise_controller?
+        .container
+          .row
+            .col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
+              = render 'shared/flash'
+              = content_for(:content) ? yield(:content) : yield
+      - else
+        .row
+          .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+            = render 'shared/flash'
+            = content_for(:content) ? yield(:content) : yield

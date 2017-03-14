@@ -1,0 +1,93 @@
+- content_for :step_title do
+  %i.vs.vs-check.text-primary
+  .middle Confirmation
+%p.text-center Does everything look right?
+
+%h3 Account
+.label-group
+  %label
+    Account Name
+  .pull-right= @user.account
+%h4 Units
+- @user.account.units.each do |unit|
+  .panel.panel-primary
+    .panel-heading
+      %h3.panel-title= unit
+    .panel-body
+      .text-right.actions
+        = link_to edit_unit_path(unit), class: 'btn' do
+          %i.vs.vs-cog
+      .label-group
+        %label Unit Name
+        .pull-right= unit.name
+      .label-group
+        %label Address
+        .pull-right= unit.address
+      .label-group
+        %label Address 2
+        .pull-right= unit.address1
+      .label-group
+        %label City
+        .pull-right= unit.city
+      .label-group
+        %label State
+        .pull-right= unit.state
+      .label-group
+        %label Zip
+        .pull-right= unit.zipcode
+      .label-group
+        %label Repeaters
+        .pull-right= unit.sensors.repeaters.count
+    %ul.list-group
+      - unit.coolers.each do |cooler|
+        %li.list-group-item
+          .text-right.actions
+            = link_to edit_cooler_path(cooler), class: 'btn' do
+              %i.vs.vs-cog
+          .label-group
+            %label Cooler Name
+            .pull-right= cooler
+          .label-group
+            %label Low Temp
+            .pull-right #{convert_temp(cooler.bottom_temp_threshold)}°
+          .label-group
+            %label High Temp
+            .pull-right #{convert_temp(cooler.top_temp_threshold)}°
+%h3 Contact Info
+.label-group
+  %label Name
+  .pull-right= @user
+.label-group
+  %label Email
+  .pull-right= @user.email
+%br
+%h3 Notifications
+.label-group
+  %label Email
+  .pull-right= @user.email_notification? ? 'On' : 'Off'
+.label-group
+  %label Text
+  .pull-right= @user.sms_notification? ? 'On' : 'Off'
+- if @user.phone.present?
+  %label Mobile
+  .pull-right= @user.phone
+%br
+%h3 Reports
+.label-group
+  %label Frequency
+  .pull-right= User::REPORT_FREQUENCY_LABEL[@user.report_frequency]
+.label-group
+  %label Time
+  .pull-right= Unit::TIME_TO_INT.invert[@user.report_time]
+- if [:weekly, :bi_weekly].include? @user.report_frequency.to_sym
+  .label-group
+    %label Weekday
+    .pull-right= User::REPORT_WEEKDAY.invert[@user.report_weekday]
+- if @user.report_frequency.to_sym == :monthly
+  .label-group
+    %label Day
+    .pull-right= @user.report_day == 28 ? 'End of Month' : @user.report_day
+= bootstrap_form_tag url: wizard_path, method: :put do |f|
+  .text-center
+    = link_to 'Back', previous_wizard_path, class: 'btn btn-default block-xs'
+    = f.submit 'Complete Setup', class: 'btn btn-primary block-xs'

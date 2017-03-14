@@ -1,0 +1,7 @@
+- content_for :subtitle, "Here is your temperature and humidity compliance report for #{report_frequency_in_words(@user)}"
+%center
+  = render 'unit_report', unit: @user.unit
+%p Use the buttons below to manage your reports.
+%center
+  %p= link_to 'Report Settings', edit_user_url(@user, anchor: 'reports'), class: 'btn btn-primary'
+  %p= link_to 'Unsubscribe', unsubscribe_users_url(token: @token, type: :reports), class: 'btn btn-warning'

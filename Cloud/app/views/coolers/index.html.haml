@@ -1,0 +1,8 @@
+.panel.panel-default.no-border
+  .panel-heading
+    %h1= link_to @unit.name, @unit
+    %h2
+      Coolers
+      - if policy(@auth_stub).new?
+        = link_to '+', new_unit_cooler_path(@unit)
+  %ul.list-group.no-image= render partial: 'cooler', collection: @coolers, layout: 'shared/collection_item'
