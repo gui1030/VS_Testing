@@ -11,7 +11,7 @@
  *
  ******************************************************************************
  *
- *      VERIRADIO SENSOR FIRMWARE -
+ *      TEMPERATURE & HUMIDITY SENSOR FIRMWARE -
  *
  *
  *
@@ -27,7 +27,6 @@
 #include "net/ip/uip-udp-packet.h"
 #include "sys/ctimer.h"
 #include "lib/memb.h" 
-#include "structures.h"
 #include "hdc-1000-sensor.h"
 //RSSI
 #include "net/ipv6/sicslowpan.h"
@@ -41,9 +40,11 @@
 #include "rpl.h"
 #include "net/rpl/rpl.h"
 #include "net/rpl/rpl-private.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <time.h>
+#include "util.h"
+// Common Hub-Sensor Messages
+#include "hs-common.h"
+#include "sensor-fw-download.h"
 
 #define DEBUG DEBUG_NONE
 #include "net/ip/uip-debug.h"
@@ -58,7 +59,7 @@ static void             init_sensor_readings();
 static struct uip_udp_conn *client_conn;
 static uip_ipaddr_t     server_ipaddr;
 
-static uint8_t          sensor_data[VERISENSE_SIZE];
+static uint8_t          sensor_data[14];
 static struct _sensor   sensor_reads;
 static uint8_t          sensorMACAddress[8];
 
@@ -68,9 +69,12 @@ static struct etimer    timerRetrySensorRead;   //for getting new values f/hum s
 
 static int              send_attempts = 0;   //Used for resends directly after noack
 static int              read_attempts = 0;
-static uint8_t          packetSeqNum = 0;
 static int              prevRSSIValue = 0;
 
+//------------------------------------------------------------------------------
+//  Externally visable local objects
+//------------------------------------------------------------------------------
+uint8_t         packetSeqNum = 0;
 
 /*---------------------------------------------------------------------------*/
 PROCESS(udp_client_process, "UDP client process");
@@ -144,16 +148,22 @@ static void tcpip_handler(void) {
 
     if (uip_newdata()) {
         uint8_t* data = uip_appdata;
-        if (data[0] == ACK && data[1]==packetSeqNum) {
-            PRINTF("Ack from Hub (Seqnum=%d)\n",
-                    data[1]);
+        if ((enum SensorMsg_t)data[0] == mtSDA && data[1]==packetSeqNum) {
+            PRINTF("Ack from Hub (Seqnum=%d)\n", data[1]);
             ctimer_stop(&timerWaitForAck);
             send_attempts = 0;
             prevRSSIValue = sicslowpan_get_last_rssi();
         }
-        else if (data[0] == ACK && data[1]!=packetSeqNum) 
+        else if ((enum SensorMsg_t)data[0] == mtSDA && data[1]!=packetSeqNum) 
             PRINTF("==> Out of Sequence Ack from Server (Seqnum=%d)\n",
                     data[1]);
+        else if ((enum SensorMsg_t)data[0] == mtFWB) {
+            PRINTF("FW Download Begin Message Received\n");
+            FWDownloadFromHubBegin((struct FWB*)data, skHT);
+        }
+        else if ((enum SensorMsg_t)data[0] == mtFWC) {
+            FWDownloadFromHubProcessChunk((struct FWC*)data);
+        }
         else 
             PRINTF("==> Unknown Packet Type from Server (0x%2.2X:0x%2.2X)\n",
                     data[0], data[1]);
@@ -188,7 +198,7 @@ static void sendVSpacket() {
         memcpy(parentMAC, uip_ds6_defrt_choose()->u8+10, sizeof(parentMAC));
 
     // Fill send structure
-    sensor_data[0] = (uint8_t)VERISENSE;
+    sensor_data[0] = (uint8_t)mtSDT;
     sensor_data[1] = packetSeqNum;
     sensor_data[2] = (uint8_t)((sensor_reads.temp >> 8) & 0xFF);
     sensor_data[3] = (uint8_t)(sensor_reads.temp & 0xFF);
@@ -207,7 +217,7 @@ static void sendVSpacket() {
             oM[0], oM[1], oM[2], oM[3], oM[4], oM[5]);
 
     // Send out packet
-    uip_udp_packet_sendto(client_conn, sensor_data, VERISENSE_SIZE,
+    uip_udp_packet_sendto(client_conn, sensor_data, sizeof(sensor_data),
              &server_ipaddr, UIP_HTONS(UDP_SERVER_PORT));
     ctimer_set(&timerWaitForAck, SENSOR_VS_MAX_WAITING_FOR_ACK,
             retryVSPacket, NULL);
@@ -277,12 +287,28 @@ static void perform_self_test() {
 
 //******************************************************************************
 
+caddr_t _sbrk (int incr) {
+    static long             block[256];
+    static unsigned char    *heap = NULL;
+    unsigned char           *prevHeap;
+
+    if (heap == NULL) 
+        heap = (unsigned char *)&block;
+    prevHeap = heap;
+    heap += incr;
+    return ((heap-((unsigned char*)&block)) <= sizeof(block)) ?
+        (caddr_t)prevHeap : NULL;
+}
+
+//******************************************************************************
+
 PROCESS_THREAD(udp_client_process, ev, data) {
 
     PROCESS_BEGIN();
     PROCESS_PAUSE();    // why is this here?
   
-    PRINTF("\n\n** Welcome to VeriSolutions Sensor **\n");
+    PRINTF("\n\n** Welcome to VeriSolutions Sensor %s **\n",
+            SensorKindString_HT);
     // Comm with Server on channel Range 11-26 f/ IEEE 802.15.4
     PRINTF("Operating on RF Channel %d\n", RF_CORE_CONF_CHANNEL);
     PRINTF("Maximum Clients Preset is %d\n", MAX_VS_CLIENTS);
@@ -331,10 +357,8 @@ PROCESS_THREAD(udp_client_process, ev, data) {
 
     while (true) {
         PROCESS_YIELD();    // wait for an event to happen
-        clock_time_t clock_time();
-        unsigned long now = clock_time();
-        PRINTF("Event at %ld.%.2lds  Type=", now/CLOCK_SECOND,
-                ((now*100)/CLOCK_SECOND)%100);
+
+        PRINTF("%s  Type=", now_string());
 
         if(ev == tcpip_event) {
             PRINTF("TCP/IP: ");

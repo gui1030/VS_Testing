@@ -13,77 +13,90 @@
  *
  *      VERIRADIO HUB FIRMWARE -
  *
+ *   Consists of two threads, udp_server_process and processCommWithElectron
  *
  *
  *
  ******************************************************************************
  */
 
+#include "project-conf.h"
 #include "contiki.h"
-#include "contiki-lib.h"
 #include "contiki-net.h"
-#include "net/ip/uip.h"
-#include "net/rpl/rpl.h"
-#include "sys/ctimer.h"
 #include "net/netstack.h"
+#include "net/ip/uip.h"
+#include "net/ip/uip-debug.h"
+#include "net/rpl/rpl.h"
 #include "sys/process.h"
-#include "structures.h"
 #include "dev/serial-line.h"
 #include "dev/cc26xx-uart.h"
-#include "project-conf.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-#define DEBUG DEBUG_NONE
-#include "net/ip/uip-debug.h"
-
-//MAC Address
 #include "ieee-addr.h"
-
-//BOARD_SENSORTAG
-#include "ti-lib.h"
-#include "batmon-sensor.h"
 #include "board-peripherals.h"
 #include "dev/leds.h"
+#include "ext-flash.h"
+#include "hs-common.h"
+#include "util.h"
+#include <time.h>
 
-#define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
+#define DEBUG DEBUG_NONE
 
 #undef PRINTF
 #define PRINTF(...) printf(__VA_ARGS__)
 
+//-----------------------------------------------------------------------------
+//
+//  These define various process events 
+//
 static process_event_t  eventSensorReading;
 static process_event_t  eventSelfTest;
-static process_event_t  eventRepair;
 
-static struct uip_udp_conn  *server_conn;
+
+//-----------------------------------------------------------------------------
+//
+//  These are global data used by more than one function
+//
 static struct client_t      netClient[MAX_VS_CLIENTS];
 static struct vsMsgData_t   vsMsgData[MAX_VS_CLIENTS];
 static bool                 humSensorOkay, flashMemOkay;
 static uint8_t              ourMACAddress[8];
-
+static struct uip_udp_conn  *server_conn;
 static struct ctimer        timerSendSensorPacket;
 
-static unsigned short       computeCksum(char*, int);
+#define UIP_IP_BUF   ((struct uip_ip_hdr *)&uip_buf[UIP_LLH_LEN])
+
+
+//-----------------------------------------------------------------------------
+//
+//  These are prototypes for functions elaborated toward the bottom
+//
 static char                 *ipaddrToChar(const uint8_t*);
+
+
+//-----------------------------------------------------------------------------
+//
+//  These define the two concurrent threads operating
+//
+PROCESS_NAME(udp_server_process);
+PROCESS(udp_server_process, "UDP Server");
+AUTOSTART_PROCESSES(&udp_server_process);
 
 PROCESS_NAME(processCommWithElectron);
 PROCESS(processCommWithElectron, "Electron Communication");
 
-PROCESS_NAME(udp_server_process);
-PROCESS(udp_server_process, "UDP server process");
-AUTOSTART_PROCESSES(&udp_server_process);
 
 //*****************************************************************************
 
-static int getClientIndex (enum clientKind kind, uip_ipaddr_t *ip, char *mac) {
+//-----------------------------------------------------------------------------
+//
+//  
+//
+static int getClientIndex (enum SensorKind_t kind, uip_ipaddr_t *ip, char *mac) {
 
     int thisClient;
     // Determine if we've seen this sensor before & add it to sensor list
     for (thisClient=0; thisClient<MAX_VS_CLIENTS; thisClient++) {
         // is this client slot empty?
-        if (netClient[thisClient].kind == clientNone) {
+        if (netClient[thisClient].kind == skNone) {
             // Add new client
             netClient[thisClient].kind = kind;
             strcpy(netClient[thisClient].mac, mac);
@@ -103,15 +116,15 @@ static int getClientIndex (enum clientKind kind, uip_ipaddr_t *ip, char *mac) {
     return thisClient;
 }
 
-//*****************************************************************************
-/*
- * Place incoming Sensor data packet in queue for transmission to Electron
- *      Returns: Index into netClient list
- */ 
+//-----------------------------------------------------------------------------
+//
+//  Place incoming Sensor data packet in queue for transmission to Electron
+//      Returns: Index into netClient list
+//  
 static int queueVSPacket(char *mac, uip_ipaddr_t *ipAddr,
         uint8_t *sensor_data) {
 
-    int thisSensor = getClientIndex(clientSensor, ipAddr, mac);
+    int thisSensor = getClientIndex(skHT, ipAddr, mac);
     if (thisSensor >= 0) {
         clock_time_t        clock_time();
         struct vsMsgData_t  electronMsg;
@@ -166,7 +179,7 @@ static void tcpip_handler(void) {
     if (uip_newdata()) {
         uint8_t* data = uip_appdata;
 
-        if (data[0] == VERISENSE) {
+        if (data[0] == mtSDT) {
             int     clientNum;
             int     localSeqNum = data[1];
             PRINTF("Sensor: ");
@@ -174,17 +187,18 @@ static void tcpip_handler(void) {
                     &UIP_IP_BUF->srcipaddr, (uint8_t*)uip_appdata);
             // Acknowledge message
             uint8_t toSend[2];
-            toSend[0] = ACK;
+            toSend[0] = mtSDA;
             toSend[1] = localSeqNum;
             uip_ipaddr_copy(&server_conn->ripaddr, &UIP_IP_BUF->srcipaddr);
             uip_udp_packet_send(server_conn, toSend, sizeof(toSend));
-            PRINTF("To Sensor: Ack %d (Seqnum=%d)\n", clientNum, toSend[1]);
+            PRINTF("%s  To Sensor: Ack %d (Seqnum=%d)\n", now_string(),
+                    clientNum, toSend[1]);
             /* Restore server connection to allow data from any node */
             uip_create_unspecified(&server_conn->ripaddr);
             leds_toggle(LEDS_GREEN); 
         }
         else
-            PRINTF("===>Incomming Packet specifies unknown Type (%X)\n",
+            PRINTF("===>Incoming Packet specifies unknown Type (%X)\n",
                     data[0]);
     }
     else
@@ -206,6 +220,21 @@ static void perform_self_test() {
 
 //*****************************************************************************
 
+caddr_t _sbrk (int incr) {
+    static long             block[256];
+    static unsigned char    *heap = NULL;
+    unsigned char           *prevHeap;
+
+    if (heap == NULL)
+        heap = (unsigned char *)&block;
+    prevHeap = heap;
+    heap += incr;
+    return ((heap-((unsigned char*)&block)) <= sizeof(block)) ?
+        (caddr_t)prevHeap : NULL;
+}
+
+//*****************************************************************************
+
 PROCESS_THREAD(udp_server_process, ev, data) {
 
     uip_ipaddr_t            ipaddr;
@@ -214,11 +243,15 @@ PROCESS_THREAD(udp_server_process, ev, data) {
     PROCESS_BEGIN();
     PROCESS_PAUSE();
 
-    PRINTF("\n\n ** Welcome to VeriSolutions Hub **\n");
+    PRINTF("\n\n ** Welcome to VeriSolutions %s **\n", SensorKindString_Hub);
     // Comm with Clients on channel Range 11-26 f/ IEEE 802.15.4
     PRINTF("Operating on RF Channel %d\n", RF_CORE_CONF_CHANNEL);
     PRINTF("Maximum Clients Preset is %d\n", MAX_VS_CLIENTS);
     PRINTF("Security Level is %d\n", NONCORESEC_CONF_SEC_LVL);
+
+    uint32_t now = clock_seconds();
+    struct tm then = {45, 32, 11, 6, 2, 117, 1, 0, 0};
+    PRINTF("now=%lu  Time=%s\n", now, asctime(&then));
 
     uint8_t *m = ourMACAddress;
     ieee_addr_cpy_to(ourMACAddress, sizeof(ourMACAddress));
@@ -296,19 +329,11 @@ PROCESS_THREAD(udp_server_process, ev, data) {
     while (true) {
         PROCESS_YIELD();
 
-        clock_time_t clock_time();
-        unsigned long now = clock_time();
-        PRINTF("Event at %ld.%.2lds  Type=", now/CLOCK_SECOND,
-                ((now*100)/CLOCK_SECOND)%100);
+        PRINTF("%s  Type=", now_string());
 
         if (ev == tcpip_event) {
             PRINTF("TCP/IP: ");
             tcpip_handler();
-        }
-        else if (ev == eventRepair) {
-            PRINTF("REPAIR\n");
-            rpl_repair_root(RPL_DEFAULT_INSTANCE);
-            printf("ag\n");
         }
         else if (ev == eventSelfTest) {
             radio_value_t   current_chan;
@@ -321,7 +346,7 @@ PROCESS_THREAD(udp_server_process, ev, data) {
                     m[2], m[3], m[4], m[6], m[6], m[7],
                     humSensorOkay, flashMemOkay, current_chan,
                     5/*why?*/, FW_VERSION);
-            printf("%s,%d\n", buffer, computeCksum(buffer, strlen(buffer)));
+            printf("%s,%d\n", buffer, cksum16(buffer, strlen(buffer)));
         }
         else if (ev == eventSensorReading)
             PRINTF("SENSOR READING\n");
@@ -331,23 +356,6 @@ PROCESS_THREAD(udp_server_process, ev, data) {
             PRINTF("UNKNOWN (ev=%X)\n", ev);
     }
     PROCESS_END();
-}
-
-//*****************************************************************************
-/*
- * Algorithm by John G. Fletcher (1934-2012) at Lawrence Livermore Labs
- */
-
-static unsigned short computeCksum(char *payload, int len) {
-
-    uint8_t A = 0;
-    uint8_t B = 0;
-
-    for (int i = 0; i < len; i++) {
-        A = (A + payload[i]) % 255;
-        B = (B + A) % 255;
-    }
-    return ((A<<8) | B);
 }
 
 //*****************************************************************************
@@ -383,7 +391,7 @@ static void xferPacketsToHub() {
                     vsMsgData[i].mac, temp/100, temp%100,
                     vsMsgData[i].humidity, vsMsgData[i].battery,
                     vsMsgData[i].rssi, ipaddrToChar(vsMsgData[i].parent_mac));
-            printf("%s,%d\n", buffer, computeCksum(buffer, strlen(buffer)));
+            printf("%s,%d\n", buffer, cksum16(buffer, strlen(buffer)));
         }
     }
     ctimer_set(&timerSendSensorPacket, HUB_COMM_WITH_ELECTRON_INTERVAL,
@@ -397,11 +405,11 @@ static void parse_command(char *recBuffer ) {
     int     recLength = strlen(recBuffer);
     char    *checkStr = strrchr(recBuffer, ',');
 
-    PRINTF("From VS: ");
+    PRINTF("%s  From VS: ", now_string());
     if (checkStr && (recLength=checkStr-recBuffer)) {
         char tempBuf[64];
         strcpy(tempBuf, recBuffer);
-        int ourCksum = computeCksum(recBuffer, recLength);
+        int ourCksum = cksum16(recBuffer, recLength);
         int msgCksum = atoi(checkStr+1);
         if (ourCksum != msgCksum) 
             PRINTF("Packet w/ invalid Checksum\n");
@@ -411,11 +419,6 @@ static void parse_command(char *recBuffer ) {
                 process_post_synch(&udp_server_process,
                         eventSelfTest, NULL);
                 PRINTF("SELF TEST  Pkt=\"%s\"\n", recBuffer);
-            }
-            else if (!strcmp(cmdStr, "5")) {// repair
-                process_post_synch(&udp_server_process,
-                        eventRepair, NULL);
-                PRINTF("REPAIR  Pkt=\"%s\"\n", recBuffer);
             }
             else
                 PRINTF("Unexpected Pkt=\"%s\"\n", recBuffer);
@@ -436,10 +439,9 @@ static void parse_command(char *recBuffer ) {
 PROCESS_THREAD (processCommWithElectron, ev, data) {
     PROCESS_BEGIN();
 
-    PRINTF("===>processCommWithElectron Starting\n");
+    PRINTF("===> processCommWithElectron() Starting\n");
 
     eventSelfTest = process_alloc_event();
-    eventRepair = process_alloc_event();
 
     cc26xx_uart_set_input(serial_line_input_byte);
 

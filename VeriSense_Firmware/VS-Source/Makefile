@@ -1,5 +1,13 @@
-all: vr-sensor vr-hub
-CONTIKI=../contiki
+all: hub-radio sensor-ht
+
+# Sourcefiles linked with hub-radio
+PROJECT_SOURCEFILES+= hub-fw-upload.c
+
+# Sourcefiles linked with all sensor types
+PROJECT_SOURCEFILES+= sensor-fw-download.c
+
+# Sourcefiles linked with both hub-radio & all sensor types
+PROJECT_SOURCEFILES+= util.c
 
 TARGET=srf06-cc26xx
 BOARD=veriradio/cc2650
