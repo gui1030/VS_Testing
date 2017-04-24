@@ -23,7 +23,7 @@
 #define		PROJECT_CONF_H_
 
 #define		RF_CORE_CONF_CHANNEL						REPLACE
-#define		FW_VERSION									"2.1.0"
+#define		FW_VERSION									"1.4.1"
 
 //-----------------------------------------------------------------------------
 
