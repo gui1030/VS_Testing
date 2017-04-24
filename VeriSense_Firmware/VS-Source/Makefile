@@ -12,8 +12,10 @@ PROJECT_SOURCEFILES+= util.c
 TARGET=srf06-cc26xx
 BOARD=veriradio/cc2650
 CPU_FAMILY=cc26xx
+CONTIKI=../contiki
 
 CFLAGS += -DPROJECT_CONF_H=\"project-conf.h\"
+# CFLAGS += --save-temps
 
 MODULES+=core/net/llsec/noncoresec
 
