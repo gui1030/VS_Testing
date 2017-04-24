@@ -21,7 +21,7 @@
 
 #pragma once
 
-//#define DEBUG_MODE              // comment this out to disable debug output
+#define DEBUG_MODE           // comment this out to disable debug output
 
 // Defines for outputting to serial debug port (or not)
 #if defined(DEBUG_MODE)
