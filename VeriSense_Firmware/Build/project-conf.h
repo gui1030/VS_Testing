@@ -23,7 +23,7 @@
 #define		PROJECT_CONF_H_
 
 #define		RF_CORE_CONF_CHANNEL						REPLACE
-#define		FW_VERSION									"1.4.1"
+#define		FW_VERSION									"2.1.0"
 
 //-----------------------------------------------------------------------------
 
@@ -31,9 +31,9 @@
 #define HUB_VS_MAX_WAITING_FOR_ACK                  (CLOCK_SECOND*6)
 #define HUB_VS_MAX_RETRANSMITS                      6
 #define HUB_COMM_WITH_ELECTRON_INTERVAL             (CLOCK_SECOND*5)
-#define SENSOR_COMM_WITH_HUB_INTERVAL               (CLOCK_SECOND*30) /*30 min*/
-#define SENSOR_INITIAL_COMM_WITH_HUB                (CLOCK_SECOND*30) /*2 min*/
-#define SENSOR_VS_MAX_RETRANSMITS                   3
+#define SENSOR_COMM_WITH_HUB_INTERVAL               (CLOCK_SECOND*60*30) /*30 min*/
+#define SENSOR_INITIAL_COMM_WITH_HUB                (CLOCK_SECOND*60*2) /*2 min*/
+#define SENSOR_VS_MAX_RETRANSMITS                   5
 #define SENSOR_VS_MAX_WAITING_FOR_ACK               (CLOCK_SECOND*4)
 #define SENSOR_RETRY_SENSOR_READ_INTERVAL           (CLOCK_SECOND*2)
 
